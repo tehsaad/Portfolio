@@ -1205,4 +1205,10 @@ p { margin: 0 0 1em; color: var(--ink-text); }
   }
 }
 
+/* Journey page — year blocks reuse .eyebrow, .ledger-list, .status-pill */
+.journey-year { margin-bottom: 40px; }
+.journey-year:last-child { margin-bottom: 0; }
+.journey-year-head { margin-bottom: 16px; }
+.journey-year-head h3 { font-size: 22px; margin: 0; }
+
 
