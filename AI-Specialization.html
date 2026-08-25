@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PGV5GGWTYK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PGV5GGWTYK');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Specialization Roadmap — TehSaad (Saad Rizwan)</title>
+<link rel="icon" type="image/jpeg" href="assets/img/favicon.jpg">
+<meta name="description" content="AI Engineering and Machine Learning roadmap by Saad Rizwan (TehSaad) — foundations, deep learning, NLP, transformers, and production systems.">
+<meta property="og:title" content="AI Engineering Roadmap — Saad Rizwan (TehSaad)">
+<meta property="og:description" content="Technical curriculum covering Machine Learning, PyTorch, LLMs, RAG, and AI Systems Engineering.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<header class="site-nav">
+  <a class="brand" href="index.html">
+    <span class="seal" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="34" height="34">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="0.8"/>
+        <text x="32" y="38" text-anchor="middle" font-family="'Fraunces', serif" font-size="22" fill="currentColor">TS</text>
+      </svg>
+    </span>
+    <span class="brand-text">TehSaad<span class="brand-sub">Saad&nbsp;Rizwan</span></span>
+  </a>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="siteMenu">
+    <a href="index.html"><span class="tag">01</span>Intro</a>
+    <a href="projects.html"><span class="tag">02</span>Projects</a>
+    <a href="university.html"><span class="tag">03</span>Academics</a>
+    <a href="AI-Specialization.html" class="active"><span class="tag">04</span>AI Track</a>
+    <a href="notes.html"><span class="tag">05</span>Lab Notes</a>
+    <a href="contact.html" class="nav-cta">Contact</a>
+  </nav>
+</header>
+
+<section class="hero-v2 dark">
+  <div class="container">
+    <p class="eyebrow">Record No. 004 &middot; AI Track</p>
+    <div class="hero-v2-grid">
+      <div>
+        <p class="hero-v2-greet">Technical Specialization</p>
+        <h1>AI Engineering &amp;<br><span class="accent">Machine</span><br>Intelligence</h1>
+        <p class="hero-v2-lede">A structured progression from computing foundations and mathematics to classical machine learning, deep neural architectures, transformers, and production AI deployment.</p>
+        <div class="btn-group">
+          <a href="#phases" class="btn primary">View Curriculum</a>
+          <a href="projects.html" class="btn on-dark secondary">Applied Projects</a>
+        </div>
+      </div>
+
+      <div class="arch-frame">
+        <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="aig" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#16233A"/>
+              <stop offset="60%" stop-color="#1F2F4A"/>
+              <stop offset="100%" stop-color="#B4864B"/>
+            </linearGradient>
+          </defs>
+          <rect width="300" height="400" fill="url(#aig)"/>
+          <circle cx="150" cy="180" r="70" fill="none" stroke="#D9B27C" stroke-width="0.8" opacity="0.4"/>
+          <circle cx="150" cy="180" r="100" fill="none" stroke="#D9B27C" stroke-width="0.5" opacity="0.3"/>
+          <g stroke="#D9B27C" stroke-width="0.8" opacity="0.5" fill="none">
+            <line x1="80" y1="180" x2="220" y2="180"/>
+            <line x1="150" y1="110" x2="150" y2="250"/>
+            <line x1="100" y1="130" x2="200" y2="230"/>
+            <line x1="100" y1="230" x2="200" y2="130"/>
+          </g>
+          <circle cx="150" cy="180" r="6" fill="#D9B27C"/>
+          <text x="150" y="320" text-anchor="middle" font-family="'IBM Plex Mono', monospace" font-size="12" fill="#FAF7EF" letter-spacing="3">AI TRACK // 2026-2030</text>
+        </svg>
+        <div class="arch-caption">NUST SEECS &middot; AI Roadmap</div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><div class="num">4</div><div class="lbl">Core Phases</div></div>
+        <div class="stat"><div class="num">Python</div><div class="lbl">Primary AI Stack</div></div>
+        <div class="stat"><div class="num">PyTorch</div><div class="lbl">Deep Learning</div></div>
+        <div class="stat"><div class="num">Deploy</div><div class="lbl">End-to-End Systems</div></div>
+      </div>
+    </div>
+
+    <div class="feature-strip">
+      <div class="feat"><h4>First Principles</h4><p>Mathematical grounding in linear algebra, multivariable calculus, and probability.</p></div>
+      <div class="feat"><h4>Model Architecture</h4><p>Deep learning from perceptrons and CNNs through to self-attention and Transformers.</p></div>
+      <div class="feat"><h4>System Integration</h4><p>Retrieval-Augmented Generation (RAG), vector embeddings, and tool-using agents.</p></div>
+      <div class="feat"><h4>Production Engineering</h4><p>FastAPI services, Docker containers, evaluation metrics, and API deployment.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="phases">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Curriculum</p>
+        <h2>The 4 Core Phases</h2>
+        <p class="lede">A systematic progression designed to bridge theoretical understanding with production-ready software engineering.</p>
+      </div>
+    </div>
+
+    <div class="ai-module-grid reveal-stagger">
+      <div class="ai-module-card">
+        <span class="phase-num">PHASE 01 &middot; MONTHS 01&ndash;03</span>
+        <h3>Foundations &amp; Applied Math</h3>
+        <p>Establishing algorithmic rigor, data manipulation fluency, and the foundational mathematics of machine learning.</p>
+        <ul class="skills-list">
+          <li><strong>Python Ecosystem:</strong> NumPy vectorized operations, Pandas data munging, Matplotlib/Seaborn analytics.</li>
+          <li><strong>Mathematics for AI:</strong> Linear algebra (matrices, eigenvalues), multivariable calculus (gradients, chain rule), and probability distributions.</li>
+          <li><strong>Data Structures:</strong> Algorithmic problem solving, complexity analysis (Big-O), search and graph traversal.</li>
+        </ul>
+      </div>
+
+      <div class="ai-module-card">
+        <span class="phase-num">PHASE 02 &middot; MONTHS 04&ndash;05</span>
+        <h3>Classical Machine Learning</h3>
+        <p>Transitioning from statistical mathematical formulations to predictive modeling and validation pipelines.</p>
+        <ul class="skills-list">
+          <li><strong>Supervised Learning:</strong> Linear &amp; logistic regression, decision trees, random forests, SVMs, gradient boosting.</li>
+          <li><strong>Unsupervised Methods:</strong> K-Means clustering, PCA dimensionality reduction, anomaly detection.</li>
+          <li><strong>Model Evaluation:</strong> Cross-validation, precision/recall trade-offs, ROC-AUC, feature selection, regularization.</li>
+        </ul>
+      </div>
+
+      <div class="ai-module-card">
+        <span class="phase-num">PHASE 03 &middot; MONTHS 06&ndash;08</span>
+        <h3>Deep Learning &amp; Transformers</h3>
+        <p>Designing, training, and fine-tuning neural architectures with PyTorch across vision and natural language processing.</p>
+        <ul class="skills-list">
+          <li><strong>Deep Learning Fundamentals:</strong> Backpropagation from scratch, activation functions, optimizers (Adam, SGD).</li>
+          <li><strong>Computer Vision:</strong> Convolutional Neural Networks (CNNs), transfer learning, feature representation.</li>
+          <li><strong>NLP &amp; Transformers:</strong> Tokenization, word embeddings, self-attention mechanisms, BERT and GPT architectures.</li>
+        </ul>
+      </div>
+
+      <div class="ai-module-card">
+        <span class="phase-num">PHASE 04 &middot; MONTHS 09&ndash;12</span>
+        <h3>AI Systems &amp; Production Deployment</h3>
+        <p>Packaging AI models into robust, scalable software services with APIs, databases, and monitoring.</p>
+        <ul class="skills-list">
+          <li><strong>GenAI &amp; RAG:</strong> Vector databases (Chroma, Qdrant), semantic search, retrieval pipelines, LLM agent tool-calling.</li>
+          <li><strong>Backend Engineering:</strong> FastAPI endpoints, asynchronous processing, PostgreSQL persistence.</li>
+          <li><strong>MLOps &amp; Shipping:</strong> Containerization with Docker, CI/CD pipelines, latency benchmarking, and model evaluation.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">Engineering Target</p>
+        <h2>The Complete AI Engineer Standard</h2>
+        <p class="lede">Moving beyond shallow scripting to building explainable, robust, and deployable software systems.</p>
+      </div>
+    </div>
+    <div class="track-grid reveal-stagger">
+      <div class="track-card">
+        <span class="tk-tag">01 &middot; UNDERSTAND</span>
+        <h4>Mathematical Clarity</h4>
+        <p>Ability to explain model loss functions, optimization surfaces, and gradient behavior without treating models as black boxes.</p>
+      </div>
+      <div class="track-card">
+        <span class="tk-tag">02 &middot; ARCHITECT</span>
+        <h4>Full-Stack Integration</h4>
+        <p>Connecting raw data ingestion, preprocessing pipelines, model inference, and frontend interfaces into a cohesive product.</p>
+      </div>
+      <div class="track-card">
+        <span class="tk-tag">03 &middot; SHIP</span>
+        <h4>Production Reliability</h4>
+        <p>Containerizing workloads with Docker, securing API endpoints, monitoring latency, and establishing rigorous test suites.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-seal">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <text x="32" y="38" text-anchor="middle" font-family="'Fraunces', serif" font-size="20" fill="currentColor">TS</text>
+      </svg>
+      <div>
+        <p class="footer-name">Saad Rizwan <span>&middot; TehSaad</span></p>
+        <p class="footer-role">BS Computer Science &middot; NUST SEECS '30</p>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:tehsaad13453310@gmail.com">tehsaad13453310@gmail.com</a>
+      <a href="https://github.com/tehsaad" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/saad-rizwan-336b8b3ba/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <p class="footer-note">Built with semantic HTML, CSS &amp; JavaScript. &copy; 2026 Saad Rizwan.</p>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>

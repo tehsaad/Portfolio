@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://app.secureprivacy.ai/script/6a87e320632ec2b180122cf4.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PGV5GGWTYK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-PGV5GGWTYK');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Lab &amp; Notes — TehSaad (Saad Rizwan)</title>
+<link rel="icon" type="image/jpeg" href="assets/img/favicon.jpg">
+<meta name="description" content="Technical deep-dives, C++ systems notes, AI research breakdowns, and engineering milestone ledger by Saad Rizwan (TehSaad).">
+<meta property="og:title" content="Engineering Lab &amp; Technical Notes — Saad Rizwan (TehSaad)">
+<meta property="og:description" content="Deep-dives on C++ memory management, transformer attention mechanisms, seminal CS reading shelf, and project milestones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<header class="site-nav">
+  <a class="brand" href="index.html">
+    <span class="seal" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="34" height="34">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="0.8"/>
+        <text x="32" y="38" text-anchor="middle" font-family="'Fraunces', serif" font-size="22" fill="currentColor">TS</text>
+      </svg>
+    </span>
+    <span class="brand-text">TehSaad<span class="brand-sub">Saad&nbsp;Rizwan</span></span>
+  </a>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="siteMenu">
+    <a href="index.html"><span class="tag">01</span>Intro</a>
+    <a href="projects.html"><span class="tag">02</span>Projects</a>
+    <a href="university.html"><span class="tag">03</span>Academics</a>
+    <a href="AI-Specialization.html"><span class="tag">04</span>AI Track</a>
+    <a href="notes.html" class="active"><span class="tag">05</span>Lab Notes</a>
+    <a href="contact.html" class="nav-cta">Contact</a>
+  </nav>
+</header>
+
+<section class="hero-term">
+  <div class="container">
+    <p class="eyebrow">Record No. 005 &middot; Engineering Lab</p>
+    <div class="hero-term-grid">
+      <div>
+        <h1>Technical Notes &amp;<br>Engineering <span class="accent">Ledger</span></h1>
+        <p class="hero-term-lede">A living notebook of technical breakdowns, seminal CS literature takeaways, and a chronological milestone log spanning systems programming in C++ and modern AI engineering.</p>
+        <div class="btn-group" style="margin-top: 18px;">
+          <a href="#deep-dives" class="btn primary">Deep Dives ↓</a>
+          <a href="#reading-shelf" class="btn on-dark secondary">Reading Shelf ↓</a>
+        </div>
+      </div>
+
+      <div class="code-panel" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div class="cp-bar"><span></span><span></span><span></span></div>
+        <div style="font-family: var(--font-mono); font-size: 12.5px; line-height: 1.8; color: var(--dark-text);">
+          <div style="color: var(--brass-light); font-weight: 600;">// Laboratory Manifesto</div>
+          <div><span style="color: #E2A5D0;">namespace</span> Lab {</div>
+          <div style="padding-left: 16px; color: rgba(241,236,224,0.85);"><span style="color: #9FCB8E;">"Understand systems from hardware to weights"</span>,</div>
+          <div style="padding-left: 16px; color: rgba(241,236,224,0.85);"><span style="color: #9FCB8E;">"Document tricky edge cases &amp; mechanics"</span>,</div>
+          <div style="padding-left: 16px; color: rgba(241,236,224,0.85);"><span style="color: #9FCB8E;">"Measure actual latency &amp; cache behavior"</span></div>
+          <div>}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="term-stats">
+      <div class="stat"><div class="num">4</div><div class="lbl">Technical Deep-Dives</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">Books &amp; Papers</div></div>
+      <div class="stat"><div class="num">50/50</div><div class="lbl">Systems &middot; AI Split</div></div>
+      <div class="stat"><div class="num">Active</div><div class="lbl">Research &amp; Logs</div></div>
+    </div>
+
+    <div class="term-features">
+      <div class="feat"><h4>Systems &amp; Memory</h4><p>RAII wrappers, pointer arithmetic, move semantics, and cache locality.</p></div>
+      <div class="feat"><h4>AI &amp; Neural Models</h4><p>Multi-head self-attention, vector retrieval, and gradient mechanics.</p></div>
+      <div class="feat"><h4>Seminal Reading</h4><p>Key takeaways from foundational CS textbooks and AI research papers.</p></div>
+      <div class="feat"><h4>Milestone Ledger</h4><p>Chronological record of builds, hackathons, and technical progression.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="deep-dives">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">01 &middot; Deep Dives</p>
+        <h2>Technical Notes &amp; Breakdowns</h2>
+        <p class="lede">Concise technical deep-dives into core mechanics across systems programming, memory architecture, and artificial intelligence.</p>
+      </div>
+    </div>
+
+    <div class="lab-jump-bar">
+      <a href="#deep-dives">Deep-Dives (4)</a>
+      <a href="#reading-shelf">Reading Shelf (4)</a>
+      <a href="#milestones">Milestones Log (5)</a>
+    </div>
+
+    <div class="deep-dive-grid reveal-stagger">
+      <!-- Note 1: C++ RAII & Move Semantics -->
+      <div class="deep-dive-card">
+        <div class="dd-head">
+          <span class="course-code">SYSTEMS / C++</span>
+          <span class="status-pill complete">Fundamentals</span>
+        </div>
+        <h3>RAII, Move Semantics &amp; The Rule of Five</h3>
+        <p>In modern C++, managing dynamic heap memory deterministically without garbage collection overhead requires strict adherence to Resource Acquisition Is Initialization (RAII). Implementing move constructors transfers ownership via pointer stealing without deep copies.</p>
+        <pre class="code-snippet"><code><span style="color:#E2A5D0;">class</span> <span style="color:#D9B27C;">Buffer</span> {
+    <span style="color:#D9B27C;">size_t</span> sz;
+    <span style="color:#D9B27C;">int</span>* data;
+<span style="color:#E2A5D0;">public</span>:
+    <span style="color:#7B2E2E;">// Move constructor: steal pointer, nullify source</span>
+    Buffer(Buffer&amp;&amp; o) <span style="color:#E2A5D0;">noexcept</span> 
+      : sz(o.sz), data(o.data) {
+        o.data = <span style="color:#E2A5D0;">nullptr</span>;
+        o.sz = 0;
+    }
+};</code></pre>
+        <div class="takeaway-box">
+          <strong>Key Takeaway:</strong> Move semantics turn expensive \(O(N)\) heap copy operations into \(O(1)\) pointer swaps, making value semantics performant in high-throughput systems.
+        </div>
+      </div>
+
+      <!-- Note 2: Cache Locality -->
+      <div class="deep-dive-card">
+        <div class="dd-head">
+          <span class="course-code">SYSTEMS / HARDWARE</span>
+          <span class="status-pill complete">Performance</span>
+        </div>
+        <h3>Cache Locality &amp; Memory Layout</h3>
+        <p>Theoretical time complexity \(O(N)\) can be misleading without understanding CPU cache line hierarchies. Contiguous flat arrays trigger hardware prefetching into L1/L2 caches, outperforming linked node pointers by orders of magnitude.</p>
+        <pre class="code-snippet"><code><span style="color:#7B2E2E;">// Row-Major: Contiguous cache line hits</span>
+<span style="color:#E2A5D0;">for</span> (<span style="color:#D9B27C;">int</span> r = 0; r &lt; N; ++r)
+  <span style="color:#E2A5D0;">for</span> (<span style="color:#D9B27C;">int</span> c = 0; c &lt; N; ++c)
+    sum += matrix[r][c]; <span style="color:#7B2E2E;">// 64-byte spatial prefetch</span></code></pre>
+        <div class="takeaway-box">
+          <strong>Key Takeaway:</strong> Spatial locality matters as much as algorithmic complexity. Traversing memory sequentially avoids expensive CPU pipeline stalls and RAM latency penalties.
+        </div>
+      </div>
+
+      <!-- Note 3: Multi-Head Self Attention -->
+      <div class="deep-dive-card">
+        <div class="dd-head">
+          <span class="course-code">AI / TRANSFORMERS</span>
+          <span class="status-pill complete">Architecture</span>
+        </div>
+        <h3>Anatomy of Scaled Dot-Product Attention</h3>
+        <p>Transformers replace sequential recurrence with self-attention by mapping inputs to Query (\(Q\)), Key (\(K\)), and Value (\(V\)) matrices. Dotting \(Q\) with \(K^T\) computes pairwise token affinity, scaled by \(\sqrt{d_k}\) to prevent vanishing softmax gradients.</p>
+        <pre class="code-snippet"><code><span style="color:#7B2E2E;"># Scaled Dot-Product Attention</span>
+<span style="color:#D9B27C;">scores</span> = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)
+<span style="color:#D9B27C;">attn_weights</span> = torch.softmax(scores, dim=-1)
+<span style="color:#D9B27C;">output</span> = torch.matmul(attn_weights, V)</code></pre>
+        <div class="takeaway-box">
+          <strong>Key Takeaway:</strong> Scaling by \(\frac{1}{\sqrt{d_k}}\) ensures matrix dot products in high dimensions do not push softmax into regions with near-zero gradients.
+        </div>
+      </div>
+
+      <!-- Note 4: RAG Vector Search -->
+      <div class="deep-dive-card">
+        <div class="dd-head">
+          <span class="course-code">AI / SYSTEMS</span>
+          <span class="status-pill complete">RAG &amp; Search</span>
+        </div>
+        <h3>Dense Embeddings vs. Lexical BM25 Search</h3>
+        <p>In Retrieval-Augmented Generation (RAG), pure vector similarity can miss exact serial numbers, error codes, and entity names. Hybrid search combines dense semantic embeddings with sparse BM25 keyword matching for optimal recall.</p>
+        <pre class="code-snippet"><code><span style="color:#7B2E2E;"># Reciprocal Rank Fusion (RRF)</span>
+<span style="color:#E2A5D0;">def</span> <span style="color:#D9B27C;">rrf_score</span>(rank_dense, rank_bm25, k=60):
+    <span style="color:#E2A5D0;">return</span> (1.0 / (k + rank_dense)) + (1.0 / (k + rank_bm25))</code></pre>
+        <div class="takeaway-box">
+          <strong>Key Takeaway:</strong> Hybrid retrieval bridges conceptual reasoning (dense embeddings) with exact lexical precision (sparse BM25), eliminating hallucination vectors.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reading-shelf">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">02 &middot; Reading Shelf</p>
+        <h2>Seminal Literature &amp; Papers</h2>
+        <p class="lede">Essential books and research papers I am studying across software engineering, systems design, and artificial intelligence.</p>
+      </div>
+    </div>
+
+    <div class="shelf-grid reveal-stagger">
+      <div class="book-card">
+        <span class="book-type">Systems Core &middot; Book</span>
+        <h3>Effective Modern C++</h3>
+        <span class="author">Scott Meyers</span>
+        <p>Mastering C++11 and C++14 nuances: universal references vs. rvalue references, perfect forwarding with <code>std::forward</code>, lambda captures, and smart pointer mechanics.</p>
+      </div>
+
+      <div class="book-card">
+        <span class="book-type">AI Foundation &middot; Paper</span>
+        <h3>Attention Is All You Need</h3>
+        <span class="author">Vaswani et al. (Google Brain)</span>
+        <p>The landmark paper introducing the Transformer architecture, eliminating recurrence, and proving multi-head self-attention as the foundation for modern LLMs.</p>
+      </div>
+
+      <div class="book-card">
+        <span class="book-type">Systems Architecture &middot; Book</span>
+        <h3>Operating Systems: Three Easy Pieces</h3>
+        <span class="author">Remzi &amp; Andrea Arpaci-Dusseau</span>
+        <p>Comprehensive breakdown of core OS concepts: CPU and memory virtualization, concurrent multithreading (locks, condition variables), and persistent file systems.</p>
+      </div>
+
+      <div class="book-card">
+        <span class="book-type">Distributed Systems &middot; Book</span>
+        <h3>Designing Data-Intensive Applications</h3>
+        <span class="author">Martin Kleppmann</span>
+        <p>The definitive guide to data models, storage engines (LSM-trees vs B-trees), replication, partition strategies, consensus algorithms, and fault-tolerant architecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="milestones" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <p class="eyebrow">03 &middot; Experience Ledger</p>
+        <h2>Milestone Progression Log</h2>
+        <p class="lede">A chronological ledger tracking key builds, academic achievements, and technical milestones.</p>
+      </div>
+    </div>
+
+    <div class="ledger-list reveal">
+      <div class="ledger-item">
+        <span class="date-tag">August 2026</span>
+        <div>
+          <h4>C++ Smart Pointer Library &amp; RAII Architecture</h4>
+          <p>Engineered custom RAII wrappers with move constructors, custom deleters, and GoogleTest suites to internalize the Rule of Five and modern C++ memory models.</p>
+        </div>
+      </div>
+
+      <div class="ledger-item">
+        <span class="date-tag">June 2026</span>
+        <div>
+          <h4>Study Companion NLP Assistant &amp; Vector Embeddings</h4>
+          <p>Implemented an NLP retrieval pipeline using Python and spaCy to index academic syllabi and answer semantic queries using lightweight vector representations.</p>
+        </div>
+      </div>
+
+      <div class="ledger-item">
+        <span class="date-tag">March 2026</span>
+        <div>
+          <h4>Commenced BS Computer Science at NUST SEECS</h4>
+          <p>Enrolled in the School of Electrical Engineering &amp; Computer Science, committing to a 4-year rigorous curriculum spanning systems foundations and AI specialization.</p>
+        </div>
+      </div>
+
+      <div class="ledger-item">
+        <span class="date-tag">January 2026</span>
+        <div>
+          <h4>Personal Finance &amp; Expense Analytics Engine</h4>
+          <p>Built a CLI and automated financial aggregation tool in Python using Pandas and Matplotlib for parsing recurring expenses and spending trends.</p>
+        </div>
+      </div>
+
+      <div class="ledger-item">
+        <span class="date-tag">Late 2025</span>
+        <div>
+          <h4>Portfolio Architecture &amp; Semantic Dossier System</h4>
+          <p>Designed a static portfolio architecture with custom design tokens, accessible keyboard navigation, and responsive typography without heavy UI frameworks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-seal">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <text x="32" y="38" text-anchor="middle" font-family="'Fraunces', serif" font-size="20" fill="currentColor">TS</text>
+      </svg>
+      <div>
+        <p class="footer-name">Saad Rizwan <span>&middot; TehSaad</span></p>
+        <p class="footer-role">BS Computer Science &middot; NUST SEECS '30</p>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:tehsaad13453310@gmail.com">tehsaad13453310@gmail.com</a>
+      <a href="https://github.com/tehsaad" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/saad-rizwan-336b8b3ba/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    </div>
+    <p class="footer-note">Built with semantic HTML, CSS &amp; JavaScript. &copy; 2026 Saad Rizwan.</p>
+  </div>
+</footer>
+
+<script src="js/main.js" defer></script>
+</body>
+</html>
