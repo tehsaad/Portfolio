@@ -47,8 +47,8 @@ const SITE_DATA = {
     },
     {
       category: "DATA / PYTHON",
-      status: "complete",
-      statusLabel: "Completed",
+      status: "planned",
+      statusLabel: "Planned",
       lang: "Python &middot; Data Analysis",
       title: "Personal Finance &amp; Expense Engine",
       description: "CLI and analytics tool that ingests transaction data, classifies recurring spending patterns, and generates visual budget breakdowns across academic terms.",
