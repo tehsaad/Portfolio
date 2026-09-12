@@ -91,7 +91,11 @@ function initContactForm() {
         status.textContent = 'Sending message...';
         status.className = 'form-status';
 
-        const { error } = await supabaseClient
+        // -------------------------------------------------------
+        // 1. Save message to Supabase
+        // -------------------------------------------------------
+
+        const { error: insertError } = await supabaseClient
             .from('messages')
             .insert({
                 name: name,
@@ -100,16 +104,47 @@ function initContactForm() {
                 message: message
             });
 
-        if (error) {
-    console.error('Supabase error:', error);
+        if (insertError) {
+            console.error('Supabase error:', insertError);
 
-    status.textContent = error.message;
-    status.className = 'form-status err';
+            status.textContent = 'Could not send your message. Please try again.';
+            status.className = 'form-status err';
+            return;
+        }
 
-    return;
-}
+        // -------------------------------------------------------
+        // 2. Send automatic confirmation email
+        // -------------------------------------------------------
 
-        status.textContent = 'Message sent successfully!';
+        const { data: emailData, error: emailError } =
+            await supabaseClient.functions.invoke('send-contact-email', {
+                body: {
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                }
+            });
+
+        if (emailError) {
+            console.error('Email function error:', emailError);
+            
+            // Message was saved successfully, but email failed.
+            status.textContent =
+                'Message sent successfully, but the confirmation email could not be sent.';
+            status.className = 'form-status ok';
+
+            form.reset();
+            return;
+        }
+
+        console.log('Email sent:', emailData);
+
+        // -------------------------------------------------------
+        // 3. Success
+        // -------------------------------------------------------
+
+        status.textContent = 'Message sent successfully! Check your email for confirmation.';
         status.className = 'form-status ok';
 
         form.reset();
