@@ -5,6 +5,18 @@
 // ---------------------------------------------------------------
 // Mobile nav toggle
 // ---------------------------------------------------------------
+
+
+const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co/rest/v1/';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+
 function initNavToggle() {
   const toggle = document.getElementById('navToggle');
   const menu = document.getElementById('siteMenu');
@@ -57,32 +69,51 @@ function initScrollReveal() {
 // a fetch() call to Formspree / Netlify Forms / your own API later.
 // ---------------------------------------------------------------
 function initContactForm() {
-  const form = document.getElementById('contactForm');
-  const status = document.getElementById('formStatus');
-  if (!form || !status) return;
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+    if (!form || !status) return;
 
-    const name = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
-    const subject = form.querySelector('#subject').value.trim();
-    const message = form.querySelector('#message').value.trim();
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    if (!name || !email || !message) {
-      status.textContent = 'Please fill in your name, email, and message.';
-      status.className = 'form-status err';
-      return;
-    }
+        const name = form.querySelector('#name').value.trim();
+        const email = form.querySelector('#email').value.trim();
+        const subject = form.querySelector('#subject').value.trim();
+        const message = form.querySelector('#message').value.trim();
 
-    const to = 'tehsaad13453310@gmail.com';
-    const mailSubject = encodeURIComponent(subject || `Portfolio message from ${name}`);
-    const mailBody = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-    window.location.href = `mailto:${to}?subject=${mailSubject}&body=${mailBody}`;
+        if (!name || !email || !message) {
+            status.textContent = 'Please fill in your name, email, and message.';
+            status.className = 'form-status err';
+            return;
+        }
 
-    status.textContent = 'Opening your email client with this message pre-filled…';
-    status.className = 'form-status ok';
-  });
+        status.textContent = 'Sending message...';
+        status.className = 'form-status';
+
+        const { error } = await supabaseClient
+            .from('messages')
+            .insert({
+                name: name,
+                email: email,
+                subject: subject || null,
+                message: message
+            });
+
+        if (error) {
+            console.error('Supabase error:', error);
+
+            status.textContent = 'Sorry, your message could not be sent. Please try again.';
+            status.className = 'form-status err';
+
+            return;
+        }
+
+        status.textContent = 'Message sent successfully!';
+        status.className = 'form-status ok';
+
+        form.reset();
+    });
 }
 
 // ---------------------------------------------------------------
