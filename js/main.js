@@ -157,6 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavToggle();
   initScrollReveal();
   initContactForm();
-  initHeroParallax();
   initCopyEmail();
 });
