@@ -101,13 +101,13 @@ function initContactForm() {
             });
 
         if (error) {
-            console.error('Supabase error:', error);
+    console.error('Supabase error:', error);
 
-            status.textContent = 'Sorry, your message could not be sent. Please try again.';
-            status.className = 'form-status err';
+    status.textContent = error.message;
+    status.className = 'form-status err';
 
-            return;
-        }
+    return;
+}
 
         status.textContent = 'Message sent successfully!';
         status.className = 'form-status ok';
