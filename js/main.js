@@ -1,4 +1,4 @@
-/**
+ /**
  * TehSaad portfolio — front-end interactivity (plain JS, no build step).
  */
 
@@ -7,7 +7,7 @@
 // ---------------------------------------------------------------
 
 
-const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co/rest/v1/';
+const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
 
 const supabaseClient = window.supabase.createClient(
