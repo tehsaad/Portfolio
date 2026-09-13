@@ -119,10 +119,17 @@ function initContactForm() {
         'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
 
     const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_PUBLISHABLE_KEY
-        );
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+            auth: {
+                persistSession: false,
+                autoRefreshToken: false,
+                detectSessionInUrl: false
+            }
+        }
+    );
 
     form.addEventListener(
         'submit',
