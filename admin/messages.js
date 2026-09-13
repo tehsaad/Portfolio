@@ -1,4 +1,4 @@
-javascript
+
 const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
 
 const SUPABASE_PUBLISHABLE_KEY =
