@@ -1,3 +1,4 @@
+javascript
 const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
 
 const SUPABASE_PUBLISHABLE_KEY =
@@ -10,7 +11,7 @@ const supabaseClient = window.supabase.createClient(
 
 
 // =========================================================
-// ELEMENTS
+// DOM ELEMENTS
 // =========================================================
 
 const adminEmail = document.getElementById('adminEmail');
@@ -24,7 +25,6 @@ const messageCount = document.getElementById('messageCount');
 // =========================================================
 
 async function checkSession() {
-
     const {
         data: { session },
         error
@@ -46,7 +46,6 @@ async function checkSession() {
 // =========================================================
 
 async function loadMessages() {
-
     messagesContainer.innerHTML = `
         <div class="loading-state">
             Loading messages...
@@ -58,11 +57,16 @@ async function loadMessages() {
         .select('*')
         .order('created_at', { ascending: false });
 
+
+    // -----------------------------------------------------
+    // ERROR
+    // -----------------------------------------------------
+
     if (error) {
         console.error('Supabase error:', error);
 
         messagesContainer.innerHTML = `
-            <div class="loading-state error-state">
+            <div class="loading-state">
                 Unable to load messages.
             </div>
         `;
@@ -70,10 +74,19 @@ async function loadMessages() {
         return;
     }
 
+
+    // -----------------------------------------------------
+    // MESSAGE COUNT
+    // -----------------------------------------------------
+
     messageCount.textContent = data.length;
 
-    if (data.length === 0) {
 
+    // -----------------------------------------------------
+    // NO MESSAGES
+    // -----------------------------------------------------
+
+    if (data.length === 0) {
         messagesContainer.innerHTML = `
             <div class="loading-state">
                 No messages yet.
@@ -82,6 +95,11 @@ async function loadMessages() {
 
         return;
     }
+
+
+    // -----------------------------------------------------
+    // TABLE
+    // -----------------------------------------------------
 
     messagesContainer.innerHTML = `
         <div class="messages-table-wrapper">
@@ -105,58 +123,245 @@ async function loadMessages() {
         </div>
     `;
 
-    const tableBody = document.getElementById('messagesTableBody');
+
+    const tableBody =
+        document.getElementById('messagesTableBody');
+
+
+    // -----------------------------------------------------
+    // CREATE TABLE ROWS
+    // -----------------------------------------------------
 
     data.forEach(message => {
-
         const row = document.createElement('tr');
 
+        row.className = 'message-row';
+
         row.innerHTML = `
-            <td>
-                <div class="message-name">
-                    ${escapeHTML(message.name)}
-                </div>
+            <td class="message-name">
+                ${escapeHTML(message.name)}
             </td>
 
-            <td>
-                <a
-                    class="message-email"
-                    href="mailto:${escapeHTML(message.email)}"
-                >
-                    ${escapeHTML(message.email)}
-                </a>
+            <td class="message-email">
+                ${escapeHTML(message.email)}
             </td>
 
-            <td>
-                <span class="message-subject">
-                    ${escapeHTML(message.subject || 'No subject')}
-                </span>
+            <td class="message-subject">
+                ${escapeHTML(message.subject || '—')}
             </td>
 
-            <td>
-                <div class="message-preview">
-                    ${escapeHTML(message.message)}
-                </div>
+            <td class="message-preview">
+                ${escapeHTML(message.message)}
             </td>
 
-            <td>
-                <time class="message-date">
-                    ${formatDate(message.created_at)}
-                </time>
+            <td class="message-date">
+                ${formatDate(message.created_at)}
             </td>
         `;
+
+
+        // Make entire row clickable
+        row.addEventListener('click', () => {
+            openMessageModal(message);
+        });
+
 
         tableBody.appendChild(row);
     });
 }
 
+
 // =========================================================
-// HTML ESCAPE
+// OPEN MESSAGE MODAL
+// =========================================================
+
+function openMessageModal(message) {
+
+    // Remove existing modal if one exists
+    const existingModal =
+        document.getElementById('messageModal');
+
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+
+    // Create modal
+    const modal = document.createElement('div');
+
+    modal.id = 'messageModal';
+    modal.className = 'message-modal';
+
+
+    modal.innerHTML = `
+        <div class="message-modal-overlay"></div>
+
+        <div class="message-modal-content">
+
+
+            <!-- CLOSE BUTTON -->
+
+            <button
+                class="message-modal-close"
+                id="closeMessageModal"
+                type="button"
+                aria-label="Close message"
+            >
+                &times;
+            </button>
+
+
+            <!-- LABEL -->
+
+            <div class="modal-label">
+                CONTACT MESSAGE
+            </div>
+
+
+            <!-- SUBJECT -->
+
+            <h2>
+                ${escapeHTML(message.subject || 'No Subject')}
+            </h2>
+
+
+            <!-- MESSAGE INFORMATION -->
+
+            <div class="modal-meta">
+
+                <div class="modal-meta-item">
+                    <span>FROM</span>
+
+                    <strong>
+                        ${escapeHTML(message.name)}
+                    </strong>
+                </div>
+
+
+                <div class="modal-meta-item">
+                    <span>EMAIL</span>
+
+                    <a
+                        href="mailto:${escapeHTML(message.email)}"
+                    >
+                        ${escapeHTML(message.email)}
+                    </a>
+                </div>
+
+
+                <div class="modal-meta-item">
+                    <span>DATE</span>
+
+                    <strong>
+                        ${formatDate(message.created_at)}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <!-- FULL MESSAGE -->
+
+            <div class="modal-message">
+
+                <span>MESSAGE</span>
+
+                <p>
+                    ${escapeHTML(message.message)}
+                </p>
+
+            </div>
+
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="modal-actions">
+
+                <a
+                    class="modal-reply-button"
+                    href="mailto:${escapeHTML(message.email)}?subject=${encodeURIComponent(
+                        'Re: ' + (message.subject || 'Your message')
+                    )}"
+                >
+                    Reply by Email
+                </a>
+
+
+                <button
+                    class="modal-close-button"
+                    id="closeMessageButton"
+                    type="button"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+
+    document.body.appendChild(modal);
+
+
+    // -----------------------------------------------------
+    // CLOSE MODAL
+    // -----------------------------------------------------
+
+    const closeModal = () => {
+        modal.remove();
+    };
+
+
+    document
+        .getElementById('closeMessageModal')
+        .addEventListener('click', closeModal);
+
+
+    document
+        .getElementById('closeMessageButton')
+        .addEventListener('click', closeModal);
+
+
+    document
+        .querySelector('.message-modal-overlay')
+        .addEventListener('click', closeModal);
+
+
+    // -----------------------------------------------------
+    // ESCAPE KEY
+    // -----------------------------------------------------
+
+    const handleEscape = (event) => {
+
+        if (event.key === 'Escape') {
+            closeModal();
+
+            document.removeEventListener(
+                'keydown',
+                handleEscape
+            );
+        }
+    };
+
+
+    document.addEventListener(
+        'keydown',
+        handleEscape
+    );
+}
+
+
+// =========================================================
+// ESCAPE HTML
 // =========================================================
 
 function escapeHTML(value) {
 
-    if (value === null || value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return '';
     }
 
@@ -170,7 +375,7 @@ function escapeHTML(value) {
 
 
 // =========================================================
-// DATE FORMAT
+// FORMAT DATE
 // =========================================================
 
 function formatDate(dateString) {
@@ -192,34 +397,50 @@ function formatDate(dateString) {
 // LOGOUT
 // =========================================================
 
-logoutButton.addEventListener('click', async () => {
+logoutButton.addEventListener(
+    'click',
+    async () => {
 
-    logoutButton.disabled = true;
-    logoutButton.textContent = 'Signing Out...';
+        logoutButton.disabled = true;
 
-    const { error } = await supabaseClient.auth.signOut();
+        logoutButton.textContent =
+            'Signing Out...';
 
-    if (error) {
 
-        console.error('Logout error:', error);
+        const { error } =
+            await supabaseClient.auth.signOut();
 
-        logoutButton.disabled = false;
-        logoutButton.textContent = 'Sign Out';
 
-        return;
+        if (error) {
+
+            console.error(
+                'Logout error:',
+                error
+            );
+
+            logoutButton.disabled = false;
+
+            logoutButton.textContent =
+                'Sign Out';
+
+            return;
+        }
+
+
+        window.location.href =
+            'login.html';
     }
-
-    window.location.href = 'login.html';
-});
+);
 
 
 // =========================================================
-// INITIALIZE
+// INITIALIZE DASHBOARD
 // =========================================================
 
 async function init() {
 
-    const session = await checkSession();
+    const session =
+        await checkSession();
 
     if (!session) {
         return;
@@ -228,4 +449,6 @@ async function init() {
     await loadMessages();
 }
 
+
 init();
+
