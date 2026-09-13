@@ -62,7 +62,7 @@ async function loadMessages() {
         console.error('Supabase error:', error);
 
         messagesContainer.innerHTML = `
-            <div class="loading-state">
+            <div class="loading-state error-state">
                 Unable to load messages.
             </div>
         `;
@@ -83,46 +83,72 @@ async function loadMessages() {
         return;
     }
 
-    messagesContainer.innerHTML = '';
+    messagesContainer.innerHTML = `
+        <div class="messages-table-wrapper">
+
+            <table class="messages-table">
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody id="messagesTableBody"></tbody>
+
+            </table>
+
+        </div>
+    `;
+
+    const tableBody = document.getElementById('messagesTableBody');
 
     data.forEach(message => {
 
-        const card = document.createElement('article');
+        const row = document.createElement('tr');
 
-        card.className = 'message-card';
-
-        card.innerHTML = `
-            <div class="message-header">
-
-                <div>
-                    <h3>${escapeHTML(message.name)}</h3>
-                    <a href="mailto:${escapeHTML(message.email)}">
-                        ${escapeHTML(message.email)}
-                    </a>
+        row.innerHTML = `
+            <td>
+                <div class="message-name">
+                    ${escapeHTML(message.name)}
                 </div>
+            </td>
 
-                <time>
+            <td>
+                <a
+                    class="message-email"
+                    href="mailto:${escapeHTML(message.email)}"
+                >
+                    ${escapeHTML(message.email)}
+                </a>
+            </td>
+
+            <td>
+                <span class="message-subject">
+                    ${escapeHTML(message.subject || 'No subject')}
+                </span>
+            </td>
+
+            <td>
+                <div class="message-preview">
+                    ${escapeHTML(message.message)}
+                </div>
+            </td>
+
+            <td>
+                <time class="message-date">
                     ${formatDate(message.created_at)}
                 </time>
-
-            </div>
-
-            ${
-                message.subject
-                    ? `<h4>${escapeHTML(message.subject)}</h4>`
-                    : ''
-            }
-
-            <p class="message-body">
-                ${escapeHTML(message.message)}
-            </p>
-
+            </td>
         `;
 
-        messagesContainer.appendChild(card);
+        tableBody.appendChild(row);
     });
 }
-
 
 // =========================================================
 // HTML ESCAPE

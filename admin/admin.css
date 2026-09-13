@@ -476,3 +476,428 @@ body {
         height: 44px;
     }
 }
+
+/* =========================================================
+   MESSAGES DASHBOARD
+   ========================================================= */
+
+.dashboard-page {
+    min-height: 100vh;
+    padding: 28px 35px 50px;
+}
+
+
+/* =========================================================
+   DASHBOARD HEADER
+   ========================================================= */
+
+.dashboard-header {
+    max-width: 1400px;
+    margin: 0 auto 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+}
+
+.dashboard-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.dashboard-brand h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+}
+
+.dashboard-brand p {
+    margin-top: 4px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   DASHBOARD ACTIONS
+   ========================================================= */
+
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+#adminEmail {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+#logoutButton {
+    height: 38px;
+    padding: 0 16px;
+
+    border: 1px solid var(--line);
+    background: transparent;
+
+    color: var(--ink);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+#logoutButton:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+#logoutButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MESSAGE SECTION
+   ========================================================= */
+
+.messages-section {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 28px;
+}
+
+.section-heading > div:first-child > span {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: 0.18em;
+    color: var(--brass);
+}
+
+.section-heading h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.1;
+
+    color: var(--ink);
+
+    margin-bottom: 9px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   MESSAGE COUNT
+   ========================================================= */
+
+.message-count {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+
+    padding: 13px 17px;
+
+    border: 1px solid var(--line);
+    background: rgba(250, 247, 239, 0.65);
+}
+
+.message-count strong {
+    font-family: 'Fraunces', serif;
+    font-size: 27px;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.message-count span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.messages-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--line);
+    background: rgba(250, 247, 239, 0.9);
+
+    box-shadow: var(--shadow);
+}
+
+.messages-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.messages-table thead {
+    background: var(--ink);
+}
+
+.messages-table th {
+    padding: 15px 17px;
+
+    text-align: left;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: var(--paper);
+}
+
+
+/* Column widths */
+
+.messages-table th:nth-child(1) {
+    width: 16%;
+}
+
+.messages-table th:nth-child(2) {
+    width: 21%;
+}
+
+.messages-table th:nth-child(3) {
+    width: 17%;
+}
+
+.messages-table th:nth-child(4) {
+    width: 31%;
+}
+
+.messages-table th:nth-child(5) {
+    width: 15%;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.messages-table td {
+    padding: 19px 17px;
+
+    border-bottom: 1px solid var(--line);
+
+    vertical-align: top;
+
+    font-size: 13px;
+    line-height: 1.55;
+
+    color: var(--ink-text);
+}
+
+.messages-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.messages-table tbody tr:hover {
+    background: rgba(180, 134, 75, 0.06);
+}
+
+.messages-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   MESSAGE CONTENT
+   ========================================================= */
+
+.message-name {
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.message-email {
+    color: var(--muted);
+
+    font-size: 12px;
+
+    text-decoration: none;
+
+    word-break: break-word;
+}
+
+.message-email:hover {
+    color: var(--brass);
+}
+
+.message-subject {
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.message-preview {
+    display: -webkit-box;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    color: var(--ink-soft);
+}
+
+.message-date {
+    display: block;
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+
+    line-height: 1.5;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   LOADING / EMPTY STATE
+   ========================================================= */
+
+.loading-state {
+    padding: 60px 25px;
+
+    text-align: center;
+
+    border: 1px solid var(--line);
+    background: rgba(250, 247, 239, 0.8);
+
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+
+    color: var(--muted);
+}
+
+.error-state {
+    color: var(--oxblood);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .dashboard-page {
+        padding: 22px 15px 40px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 40px;
+
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .dashboard-actions {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+    }
+
+    #adminEmail {
+        max-width: 180px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .section-heading h2 {
+        font-size: 32px;
+    }
+
+    .message-count {
+        align-self: flex-start;
+    }
+
+    .messages-table-wrapper {
+        box-shadow: none;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .dashboard-header {
+        flex-direction: column;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .section-heading h2 {
+        font-size: 29px;
+    }
+}
