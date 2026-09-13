@@ -901,3 +901,391 @@ body {
         font-size: 29px;
     }
 }
+
+/* =========================================================
+   MESSAGE ROW
+   ========================================================= */
+
+.message-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.message-row:hover {
+    background: rgba(180, 134, 75, 0.08);
+}
+
+
+/* =========================================================
+   MESSAGE MODAL
+   ========================================================= */
+
+.message-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+}
+
+
+/* =========================================================
+   MODAL OVERLAY
+   ========================================================= */
+
+.message-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(22, 35, 58, 0.68);
+
+    backdrop-filter: blur(4px);
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
+
+.message-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: min(720px, 100%);
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: var(--paper);
+
+    border: 1px solid var(--line);
+
+    border-top: 4px solid var(--brass);
+
+    border-radius: 4px;
+
+    padding: 42px;
+
+    box-shadow:
+        0 30px 80px rgba(22, 35, 58, 0.30);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.message-modal-close {
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--line);
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--ink);
+
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.message-modal-close:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+
+/* =========================================================
+   MODAL LABEL
+   ========================================================= */
+
+.modal-label {
+    margin-bottom: 10px;
+
+    color: var(--brass);
+
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 0.14em;
+}
+
+
+/* =========================================================
+   MODAL HEADING
+   ========================================================= */
+
+.message-modal-content h2 {
+    margin: 0 45px 30px 0;
+
+    color: var(--ink);
+
+    font-family: Fraunces, serif;
+    font-size: clamp(28px, 4vw, 38px);
+
+    line-height: 1.15;
+}
+
+
+/* =========================================================
+   MODAL META INFORMATION
+   ========================================================= */
+
+.modal-meta {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    padding: 22px 0;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+
+.modal-meta-item {
+    min-width: 0;
+}
+
+
+.modal-meta-item span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--muted);
+
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+
+.modal-meta-item strong,
+.modal-meta-item a {
+    display: block;
+
+    color: var(--ink);
+
+    font-family: Inter, sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+
+.modal-meta-item a {
+    color: var(--oxblood);
+
+    text-decoration: none;
+}
+
+
+.modal-meta-item a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   FULL MESSAGE
+   ========================================================= */
+
+.modal-message {
+    margin-top: 28px;
+}
+
+
+.modal-message > span {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--muted);
+
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.12em;
+}
+
+
+.modal-message p {
+    margin: 0;
+
+    padding: 20px;
+
+    background: rgba(22, 35, 58, 0.035);
+
+    border-left: 3px solid var(--brass);
+
+    color: var(--ink-text);
+
+    font-family: Inter, sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    white-space: pre-wrap;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MODAL ACTIONS
+   ========================================================= */
+
+.modal-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 30px;
+}
+
+
+.modal-reply-button,
+.modal-close-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    padding: 0 20px;
+
+    border-radius: 3px;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+/* Reply */
+
+.modal-reply-button {
+    background: var(--ink);
+
+    border: 1px solid var(--ink);
+
+    color: var(--paper);
+}
+
+
+.modal-reply-button:hover {
+    background: var(--ink-2);
+
+    border-color: var(--ink-2);
+}
+
+
+/* Close */
+
+.modal-close-button {
+    background: transparent;
+
+    border: 1px solid var(--line);
+
+    color: var(--ink);
+}
+
+
+.modal-close-button:hover {
+    background: var(--parchment);
+
+    border-color: var(--brass);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .message-modal {
+        padding: 14px;
+    }
+
+
+    .message-modal-content {
+        max-height: 94vh;
+
+        padding: 30px 22px;
+    }
+
+
+    .message-modal-content h2 {
+        font-size: 28px;
+
+        margin-right: 35px;
+    }
+
+
+    .modal-meta {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+
+    .modal-actions {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+
+    .modal-reply-button,
+    .modal-close-button {
+        width: 100%;
+    }
+
+}
