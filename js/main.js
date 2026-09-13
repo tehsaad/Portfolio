@@ -116,7 +116,7 @@ function initContactForm() {
         'https://myfcyubdhxzthhdgustu.supabase.co';
 
     const SUPABASE_PUBLISHABLE_KEY =
-        'YOUR_EXISTING_PUBLISHABLE_KEY';
+        'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
 
     const supabaseClient =
         window.supabase.createClient(
