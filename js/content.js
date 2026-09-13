@@ -110,40 +110,4 @@ const SITE_DATA = {
     }
   ],
 
-  // Lab Notes — technical deep-dives. Kept as a learning log, not a
-  // credentials list: each entry documents understanding-in-progress.
-  labNotes: [
-    {
-      category: "SYSTEMS / C++",
-      statusLabel: "Learning Note",
-      title: "RAII, Move Semantics &amp; The Rule of Five",
-      body: "Working through how modern C++ manages dynamic heap memory deterministically without garbage collection, via Resource Acquisition Is Initialization (RAII). Implementing move constructors to transfer ownership by pointer stealing instead of deep copies.",
-      code: "class Buffer {\n    size_t sz;\n    int* data;\npublic:\n    // Move constructor: steal pointer, nullify source\n    Buffer(Buffer&amp;&amp; o) noexcept \n      : sz(o.sz), data(o.data) {\n        o.data = nullptr;\n        o.sz = 0;\n    }\n};",
-      takeaway: "Move semantics turn expensive O(N) heap copy operations into O(1) pointer swaps — this is the piece that made value semantics in C++ finally click for me."
-    },
-    {
-      category: "SYSTEMS / HARDWARE",
-      statusLabel: "Learning Note",
-      title: "Cache Locality &amp; Memory Layout",
-      body: "Learning why theoretical time complexity O(N) alone doesn't tell the whole performance story without accounting for CPU cache line behavior. Contiguous arrays trigger hardware prefetching into L1/L2 caches in a way linked structures don't.",
-      code: "// Row-Major: Contiguous cache line hits\nfor (int r = 0; r < N; ++r)\n  for (int c = 0; c < N; ++c)\n    sum += matrix[r][c];",
-      takeaway: "Still building intuition here — the gap between theoretical Big-O and measured performance was bigger than I expected."
-    },
-    {
-      category: "AI / DEEP LEARNING",
-      statusLabel: "Learning Note",
-      title: "Reading Through Self-Attention",
-      body: "Studying how Transformers replace sequential recurrence with self-attention, mapping inputs to Query (Q), Key (K), and Value (V) matrices, then scaling QK^T by 1/sqrt(d_k) before the softmax.",
-      code: "# Scaled Dot-Product Attention\nscores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)\nattn_weights = torch.softmax(scores, dim=-1)\noutput = torch.matmul(attn_weights, V)",
-      takeaway: "I can follow the mechanics from the paper, but I haven't implemented this from scratch yet — that's a planned lab note once I get there."
-    },
-    {
-      category: "AI / SYSTEMS",
-      statusLabel: "Learning Note",
-      title: "Dense Embeddings vs. Lexical BM25 Search",
-      body: "Reading about why pure vector similarity in Retrieval-Augmented Generation (RAG) can miss exact serial numbers, error codes, and entity names — and how hybrid search combines dense embeddings with sparse BM25 keyword matching.",
-      code: "# Reciprocal Rank Fusion (RRF)\ndef rrf_score(rank_dense, rank_bm25, k=60):\n    return (1.0 / (k + rank_dense)) + (1.0 / (k + rank_bm25))",
-      takeaway: "Noted for when the Study Companion project needs retrieval — haven't applied this in code yet."
-    }
-  ]
 };

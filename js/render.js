@@ -58,28 +58,7 @@ function renderJourney(containerId) {
   `).join('');
 }
 
-function renderLabNotes(containerId) {
-  const container = document.getElementById(containerId);
-  if (!container || typeof SITE_DATA === 'undefined') return;
-
-  container.innerHTML = SITE_DATA.labNotes.map((n) => `
-    <div class="deep-dive-card">
-      <div class="dd-head">
-        <span class="course-code">${n.category}</span>
-        <span class="status-pill in-progress">${n.statusLabel}</span>
-      </div>
-      <h3>${n.title}</h3>
-      <p>${n.body}</p>
-      <pre class="code-snippet"><code>${n.code}</code></pre>
-      <div class="takeaway-box">
-        <strong>Where I'm at:</strong> ${n.takeaway}
-      </div>
-    </div>
-  `).join('');
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   renderProjectCards('projects-catalog');
   renderJourney('journey-timeline');
-  renderLabNotes('deep-dives-grid');
 });

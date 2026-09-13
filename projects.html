@@ -51,7 +51,6 @@
     <a href="projects.html" class="active"><span class="tag">03</span>Projects</a>
     <a href="university.html"><span class="tag">04</span>Academics</a>
     <a href="AI-Specialization.html"><span class="tag">05</span>AI Track</a>
-    <a href="notes.html"><span class="tag">06</span>Lab Notes</a>
     <a href="contact.html" class="nav-cta">Contact</a>
   </nav>
 </header>
@@ -83,8 +82,17 @@
 <span class="c-kw">public</span>:
     <span class="c-kw">explicit</span> SmartPtr(T* p = <span class="c-kw">nullptr</span>) : ptr(p) {}
     ~SmartPtr() { <span class="c-kw">delete</span> ptr; }
-    <span class="c-com">// Rule of Five: RAII Move Semantics</span>
-    SmartPtr(SmartPtr&amp;&amp; o) <span class="c-kw">noexcept</span> : ptr(o.release()) {}
+
+    <span class="c-com">// Rule of Five: copying disabled, moves transfer ownership</span>
+    SmartPtr(<span class="c-kw">const</span> SmartPtr&amp;) = <span class="c-kw">delete</span>;
+    SmartPtr&amp; <span class="c-kw">operator</span>=(<span class="c-kw">const</span> SmartPtr&amp;) = <span class="c-kw">delete</span>;
+
+    SmartPtr(SmartPtr&amp;&amp; o) <span class="c-kw">noexcept</span> : ptr(o.ptr) { o.ptr = <span class="c-kw">nullptr</span>; }
+    SmartPtr&amp; <span class="c-kw">operator</span>=(SmartPtr&amp;&amp; o) <span class="c-kw">noexcept</span> {
+        <span class="c-kw">if</span> (<span class="c-kw">this</span> != &amp;o) { <span class="c-kw">delete</span> ptr; ptr = o.ptr; o.ptr = <span class="c-kw">nullptr</span>; }
+        <span class="c-kw">return</span> *<span class="c-kw">this</span>;
+    }
+
     T&amp; <span class="c-kw">operator</span>*() <span class="c-kw">const</span> { <span class="c-kw">return</span> *ptr; }
 };</code></pre>
       </div>

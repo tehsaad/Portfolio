@@ -10,7 +10,6 @@ index.html              Intro / bio & overview
 projects.html           Projects catalog (C++, Python, JS builds with GitHub links)
 university.html         NUST SEECS curriculum & academic roadmap
 AI-Specialization.html  AI engineering specialization roadmap
-notes.html              Engineering lab, deep-dives, reading shelf & ledger
 contact.html            Direct contact & message form (with 1-click copy email)
 css/style.css           Design system — tokens, typography, layout, components
 css/animations.css      Scroll-reveal + motion (respects prefers-reduced-motion)
