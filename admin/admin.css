@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --ink: #16233A;
+    --ink-2: #1F2F4A;
+    --ink-soft: #33455F;
+
+    --parchment: #F0EADB;
+    --paper: #FAF7EF;
+
+    --brass: #B4864B;
+    --brass-light: #D9B27C;
+
+    --oxblood: #7B2E2E;
+
+    --ink-text: #202634;
+    --muted: #5C6579;
+
+    --line: rgba(22, 35, 58, 0.14);
+    --shadow: 0 20px 50px rgba(22, 35, 58, 0.16);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--ink-text);
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(180, 134, 75, 0.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(22, 35, 58, 0.06),
+            transparent 35%
+        ),
+        var(--parchment);
+}
+
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   DECORATIVE BACKGROUND
+   ========================================================= */
+
+.login-page::before {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    border: 1px solid rgba(180, 134, 75, 0.18);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.login-page::after {
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    border: 1px solid rgba(22, 35, 58, 0.08);
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+
+    background: rgba(250, 247, 239, 0.96);
+
+    border: 1px solid var(--line);
+
+    padding: 42px 40px 34px;
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+    z-index: 1;
+}
+
+
+/* top brass line */
+
+.login-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 4px;
+
+    background: var(--brass);
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    margin-bottom: 42px;
+}
+
+.login-brand h1 {
+    font-family: 'Fraunces', serif;
+
+    font-size: 25px;
+    font-weight: 600;
+
+    color: var(--ink);
+
+    line-height: 1.1;
+}
+
+.login-brand p {
+    margin-top: 4px;
+
+    font-family: 'IBM Plex Mono', monospace;
+
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   SEAL
+   ========================================================= */
+
+.seal {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--brass);
+
+    color: var(--brass);
+
+    font-family: 'Fraunces', serif;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    position: relative;
+}
+
+.seal::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 4px;
+
+    border: 1px solid rgba(180, 134, 75, 0.45);
+}
+
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.login-heading {
+    margin-bottom: 30px;
+}
+
+.login-heading span {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-family: 'IBM Plex Mono', monospace;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: 0.18em;
+
+    color: var(--brass);
+}
+
+.login-heading h2 {
+    font-family: 'Fraunces', serif;
+
+    font-size: 34px;
+    font-weight: 600;
+
+    line-height: 1.1;
+
+    color: var(--ink);
+
+    margin-bottom: 10px;
+}
+
+.login-heading p {
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: var(--muted);
+}
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.form-group {
+    margin-bottom: 21px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: 'IBM Plex Mono', monospace;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: var(--ink-soft);
+}
+
+.form-group input {
+    width: 100%;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--line);
+
+    background: #fffdf8;
+
+    color: var(--ink-text);
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #9298a5;
+}
+
+.form-group input:hover {
+    border-color: rgba(22, 35, 58, 0.28);
+}
+
+.form-group input:focus {
+    border-color: var(--brass);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(180, 134, 75, 0.12);
+}
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
+
+#loginButton {
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 5px;
+
+    border: 1px solid var(--ink);
+
+    background: var(--ink);
+
+    color: var(--paper);
+
+    font-family: 'IBM Plex Mono', monospace;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#loginButton:hover {
+    background: var(--ink-2);
+
+    border-color: var(--ink-2);
+
+    transform: translateY(-1px);
+}
+
+#loginButton:active {
+    transform: translateY(0);
+}
+
+#loginButton:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   LOGIN STATUS
+   ========================================================= */
+
+#loginStatus {
+    min-height: 20px;
+
+    margin-top: 14px;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    text-align: center;
+
+    color: var(--oxblood);
+}
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
+
+.back-link {
+    display: block;
+
+    margin-top: 30px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--line);
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-family: 'IBM Plex Mono', monospace;
+
+    font-size: 11px;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: var(--brass);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .login-page {
+        padding: 20px 15px;
+    }
+
+    .login-card {
+        padding: 34px 25px 28px;
+    }
+
+    .login-brand {
+        margin-bottom: 34px;
+    }
+
+    .login-heading h2 {
+        font-size: 30px;
+    }
+
+    .login-page::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .login-page::after {
+        width: 360px;
+        height: 360px;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .login-card {
+        padding: 30px 20px 25px;
+    }
+
+    .login-heading h2 {
+        font-size: 27px;
+    }
+
+    .seal {
+        width: 44px;
+        height: 44px;
+    }
+}

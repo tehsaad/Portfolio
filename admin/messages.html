@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Messages — TehSaad Admin</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <main class="dashboard-page">
+
+    <header class="dashboard-header">
+
+      <div class="dashboard-brand">
+
+        <div class="seal">TS</div>
+
+        <div>
+          <h1>TehSaad</h1>
+          <p>Administration</p>
+        </div>
+
+      </div>
+
+      <div class="dashboard-actions">
+
+        <span id="adminEmail"></span>
+
+        <button id="logoutButton" type="button">
+          Sign Out
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="messages-section">
+
+      <div class="section-heading">
+
+        <div>
+          <span>PRIVATE INBOX</span>
+          <h2>Contact Messages</h2>
+          <p>Messages submitted through your portfolio website.</p>
+        </div>
+
+        <div class="message-count">
+          <strong id="messageCount">0</strong>
+          <span>Messages</span>
+        </div>
+
+      </div>
+
+
+      <div id="messagesContainer">
+
+        <div class="loading-state">
+          Loading messages...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="messages.js"></script>
+
+</body>
+</html>
