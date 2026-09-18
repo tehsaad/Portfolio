@@ -77,7 +77,24 @@ const SITE_DATA = {
       stack: ["Node.js", "Express", "WebSockets", "Socket.io"],
       linkLabel: "GitHub Profile ↗",
       linkUrl: "https://github.com/tehsaad"
-    }
+     },
+     {
+  category: "WEB / GAME",
+  status: "complete",
+  statusLabel: "Completed",
+  lang: "JavaScript · HTML Canvas",
+  title: "Snake — Browser Game",
+  description: "A classic Snake game built from scratch using HTML Canvas and vanilla JavaScript, featuring multiple game modes, difficulty levels, increasing speed, high scores, responsive controls, touch support, visual effects, audio, and local game settings.",
+  stack: [
+    "JavaScript",
+    "HTML Canvas",
+    "CSS",
+    "Responsive UI",
+    "LocalStorage"
+  ],
+  linkLabel: "Play Snake ↗",
+  linkUrl: "games/snake-game/index.html"
+}
   ],
 
   // Journey timeline — completed/current years vs. planned future years.
