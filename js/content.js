@@ -67,17 +67,6 @@ const SITE_DATA = {
       linkLabel: "GitHub Profile ↗",
       linkUrl: "https://github.com/tehsaad"
     },
-    {
-      category: "FULL STACK",
-      status: "planned",
-      statusLabel: "Planned",
-      lang: "Node.js &middot; Realtime Systems",
-      title: "Realtime Study Room Network",
-      description: "A low-latency collaborative study room application with live chat channels, markdown note syncing, and session state via WebSockets.",
-      stack: ["Node.js", "Express", "WebSockets", "Socket.io"],
-      linkLabel: "GitHub Profile ↗",
-      linkUrl: "https://github.com/tehsaad"
-     },
      {
   category: "WEB / GAME",
   status: "complete",
@@ -94,7 +83,18 @@ const SITE_DATA = {
   ],
   linkLabel: "Play Snake ↗",
   linkUrl: "games/snake-game/index.html"
-}
+},
+    {
+      category: "FULL STACK",
+      status: "planned",
+      statusLabel: "Planned",
+      lang: "Node.js &middot; Realtime Systems",
+      title: "Realtime Study Room Network",
+      description: "A low-latency collaborative study room application with live chat channels, markdown note syncing, and session state via WebSockets.",
+      stack: ["Node.js", "Express", "WebSockets", "Socket.io"],
+      linkLabel: "GitHub Profile ↗",
+      linkUrl: "https://github.com/tehsaad"
+     }
   ],
 
   // Journey timeline — completed/current years vs. planned future years.
