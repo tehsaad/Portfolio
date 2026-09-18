@@ -77,17 +77,6 @@ const SITE_DATA = {
       stack: ["Node.js", "Express", "WebSockets", "Socket.io"],
       linkLabel: "GitHub Profile ↗",
       linkUrl: "https://github.com/tehsaad"
-    },
-    {
-      category: "HTML, Canvas",
-      status: "complete",
-      statusLabel: "completed",
-      lang: "JS and Supabase",
-      title: "Snake Game, A Web-based Game without Phaser",
-      description: "Snake Game, Basic Game build using HTML, CSS, JS adn Canvas. Game is simple with 4 diffrent modes. Backend Database is connected. Every User Score is stored and Displayed on Leaderboard.",
-      stack: ["HTML", "CSS", "JavaScript", "Canvas"],
-      linkLabel: "Snake Game ↗",
-      linkUrl: "https://tehsaad.site/games/snake-game/index.html"
     }
   ],
 

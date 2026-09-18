@@ -30,7 +30,7 @@
   function AudioManager(options) {
     options = options || {};
     this.basePath = options.basePath || '';
-    this  = { sfx: true, music: false, volume: 0.6 };
+    this.settings = { sfx: true, music: false, volume: 0.6 };
     this.ctx = null;
     this.master = null;
     this.sfxGain = null;
