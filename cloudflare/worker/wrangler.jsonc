@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tehsaad-portfolio-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-19",
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tehsaad-portfolio",
+      "database_id": "YOUR_DATABASE_ID"
+    }
+  ]
+}

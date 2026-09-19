@@ -1,9 +1,14 @@
-const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
 /*
  * TehSaad portfolio — front-end interactivity
  * Plain JS, no build step.
  */
+
+// ---------------------------------------------------------------
+// Cloudflare Worker API
+// ---------------------------------------------------------------
+
+const CONTACT_API_URL =
+    'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev/api/contact';
 
 // ---------------------------------------------------------------
 // Mobile nav toggle
@@ -87,7 +92,7 @@ function initScrollReveal() {
 
 // ---------------------------------------------------------------
 // Contact form
-// Saves message to Supabase and sends confirmation email
+// Saves message to Cloudflare Worker → D1
 // ---------------------------------------------------------------
 
 function initContactForm() {
@@ -96,40 +101,6 @@ function initContactForm() {
 
     // No contact form on this page
     if (!form || !status) return;
-
-    // Supabase library must be loaded on contact.html
-    if (!window.supabase) {
-        console.error(
-            'Supabase library is not loaded.'
-        );
-
-        status.textContent =
-            'Unable to connect to the contact service.';
-
-        status.className =
-            'form-status err';
-
-        return;
-    }
-
-    const SUPABASE_URL =
-        'https://myfcyubdhxzthhdgustu.supabase.co';
-
-    const SUPABASE_PUBLISHABLE_KEY =
-        'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
-
-    const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY,
-        {
-            auth: {
-                persistSession: false,
-                autoRefreshToken: false,
-                detectSessionInUrl: false
-            }
-        }
-    );
 
     form.addEventListener(
         'submit',
@@ -187,24 +158,35 @@ function initContactForm() {
 
             try {
                 // ------------------------------------------------
-                // 1. Save message to Supabase
+                // Save message through Cloudflare Worker
                 // ------------------------------------------------
 
-                const {
-                    error: insertError
-                } = await supabaseClient
-                    .from('messages')
-                    .insert({
-                        name: name,
-                        email: email,
-                        subject: subject || null,
-                        message: message
-                    });
+                const response = await fetch(
+                    CONTACT_API_URL,
+                    {
+                        method: 'POST',
 
-                if (insertError) {
+                        headers: {
+                            'Content-Type':
+                                'application/json'
+                        },
+
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            subject: subject,
+                            message: message
+                        })
+                    }
+                );
+
+                const result =
+                    await response.json();
+
+                if (!response.ok || !result.success) {
                     console.error(
-                        'Supabase error:',
-                        insertError
+                        'Cloudflare API error:',
+                        result
                     );
 
                     status.textContent =
@@ -217,55 +199,11 @@ function initContactForm() {
                 }
 
                 // ------------------------------------------------
-                // 2. Send automatic confirmation email
-                // ------------------------------------------------
-
-                const {
-                    data: emailData,
-                    error: emailError
-                } = await supabaseClient.functions.invoke(
-                    'send-contact-email',
-                    {
-                        body: {
-                            name: name,
-                            email: email,
-                            subject: subject,
-                            message: message
-                        }
-                    }
-                );
-
-                if (emailError) {
-                    console.error(
-                        'Email function error:',
-                        emailError
-                    );
-
-                    // Message was successfully saved,
-                    // but confirmation email failed.
-
-                    status.textContent =
-                        'Message sent successfully, but the confirmation email could not be sent.';
-
-                    status.className =
-                        'form-status ok';
-
-                    form.reset();
-
-                    return;
-                }
-
-                console.log(
-                    'Email sent:',
-                    emailData
-                );
-
-                // ------------------------------------------------
-                // 3. Success
+                // Success
                 // ------------------------------------------------
 
                 status.textContent =
-                    'Message sent successfully! Check your email for confirmation.';
+                    'Message sent successfully!';
 
                 status.className =
                     'form-status ok';
@@ -344,7 +282,6 @@ function initCopyEmail() {
                         err
                     );
 
-                    // Fallback for older browsers
                     const textarea =
                         document.createElement(
                             'textarea'
