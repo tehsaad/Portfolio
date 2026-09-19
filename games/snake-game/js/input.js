@@ -52,9 +52,11 @@
       this.bound.touchstart = function (e) { self.handleTouchStart(e); };
       this.bound.touchmove = function (e) { self.handleTouchMove(e); };
       this.bound.touchend = function (e) { self.handleTouchEnd(e); };
+      this.bound.touchcancel = function () { self.handleTouchCancel(); };
       stage.addEventListener('touchstart', this.bound.touchstart, { passive: true });
       stage.addEventListener('touchmove', this.bound.touchmove, { passive: false });
       stage.addEventListener('touchend', this.bound.touchend, { passive: true });
+      stage.addEventListener('touchcancel', this.bound.touchcancel, { passive: true });
       this.stage = stage;
     }
 
@@ -87,6 +89,7 @@
       this.stage.removeEventListener('touchstart', this.bound.touchstart);
       this.stage.removeEventListener('touchmove', this.bound.touchmove);
       this.stage.removeEventListener('touchend', this.bound.touchend);
+      this.stage.removeEventListener('touchcancel', this.bound.touchcancel);
     }
     if (this.pad && this.bound.padPointer) {
       this.pad.removeEventListener('pointerdown', this.bound.padPointer);
@@ -140,6 +143,28 @@
   };
 
   /* ------------------------------- touch --------------------------------- */
+  /*
+   * Swipe steering. The turn is fired AS SOON AS the finger has moved far
+   * enough (not when it is lifted), so the snake reacts instantly. After a
+   * turn fires, the start point is reset to the finger's current position, so
+   * one continuous drag can chain several turns (e.g. right, then down).
+   */
+
+  InputManager.prototype.findTouch = function (list) {
+    if (!list || !this.touchStart) return null;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].identifier === this.touchStart.id) return list[i];
+    }
+    return null;
+  };
+
+  InputManager.prototype.fireSwipe = function (dx, dy) {
+    if (Math.abs(dx) > Math.abs(dy)) {
+      this.onDirection(dx > 0 ? 'right' : 'left');
+    } else {
+      this.onDirection(dy > 0 ? 'down' : 'up');
+    }
+  };
 
   InputManager.prototype.handleTouchStart = function (event) {
     if (!this.canSwipe()) return;
@@ -147,32 +172,60 @@
     if (event.target && event.target.closest && event.target.closest('[data-overlay]')) return;
     var touch = event.changedTouches && event.changedTouches[0];
     if (!touch) return;
-    this.touchStart = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+    this.touchStart = {
+      id: touch.identifier,
+      x: touch.clientX,
+      y: touch.clientY,
+      fired: false
+    };
   };
 
   InputManager.prototype.handleTouchMove = function (event) {
     if (!this.touchStart) return;
-    // Stop the page from rubber-banding while the player swipes the board.
-    if (this.canSwipe() && event.cancelable) event.preventDefault();
-  };
 
-  InputManager.prototype.handleTouchEnd = function (event) {
-    if (!this.touchStart) return;
-    var touch = event.changedTouches && event.changedTouches[0];
-    if (!touch) { this.touchStart = null; return; }
+    // Stop the page from scrolling / rubber-banding while the player swipes.
+    if (this.canSwipe() && event.cancelable) event.preventDefault();
+
+    var touch = this.findTouch(event.changedTouches);
+    if (!touch) return;
 
     var dx = touch.clientX - this.touchStart.x;
     var dy = touch.clientY - this.touchStart.y;
     var threshold = NS.CONFIG.input.swipeThreshold;
-    this.touchStart = null;
 
     if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) return;
 
-    if (Math.abs(dx) > Math.abs(dy)) {
-      this.onDirection(dx > 0 ? 'right' : 'left');
-    } else {
-      this.onDirection(dy > 0 ? 'down' : 'up');
-    }
+    this.fireSwipe(dx, dy);
+
+    // Continue from here, so the same drag can steer again.
+    this.touchStart.x = touch.clientX;
+    this.touchStart.y = touch.clientY;
+    this.touchStart.fired = true;
+  };
+
+  InputManager.prototype.handleTouchEnd = function (event) {
+    if (!this.touchStart) return;
+
+    var touch = this.findTouch(event.changedTouches);
+    if (!touch) return;
+
+    var start = this.touchStart;
+    this.touchStart = null;
+
+    // Already turned during the drag — nothing left to do.
+    if (start.fired) return;
+
+    var dx = touch.clientX - start.x;
+    var dy = touch.clientY - start.y;
+    var threshold = NS.CONFIG.input.swipeThreshold;
+
+    if (Math.abs(dx) < threshold && Math.abs(dy) < threshold) return;
+
+    this.fireSwipe(dx, dy);
+  };
+
+  InputManager.prototype.handleTouchCancel = function () {
+    this.touchStart = null;
   };
 
   NS.InputManager = InputManager;

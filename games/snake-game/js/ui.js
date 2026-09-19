@@ -555,8 +555,8 @@
 
                 toggleRow(
                   'touchControls',
-                  'Touch pad',
-                  'Shown automatically on touch devices'
+                  'On-screen buttons',
+                  'Off by default. Swipe the board to steer'
                 ) +
 
                 toggleRow(
@@ -607,7 +607,7 @@
 
                 '<li>' +
                   'Move with the arrow keys or W A S D. On a touch screen, ' +
-                  'swipe on the board or use the pad.' +
+                  'swipe anywhere on the board to steer.' +
                 '</li>' +
 
                 '<li>' +
