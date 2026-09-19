@@ -32,15 +32,8 @@
     this.offsetX = 0;
     this.offsetY = 0;
 
-    // Phones/tablets (coarse pointer): skip the expensive glow blur and cap
-    // the backing-store size. This is what keeps the game smooth on mobile.
-    this.lite = !!(
-      global.matchMedia &&
-      global.matchMedia('(pointer: coarse)').matches
-    );
-
     this.showGrid = true;
-    this.glow = !this.lite;
+    this.glow = true;
 
     this.background = document.createElement('canvas');
     this.backgroundDirty = true;
@@ -52,7 +45,7 @@
       this.showGrid = grid;
       this.backgroundDirty = true;
     }
-    this.glow = !settings.reducedMotion && !this.lite;
+    this.glow = !settings.reducedMotion;
   };
 
   Renderer.prototype.setGrid = function (cols, rows) {
@@ -68,7 +61,7 @@
     var width = Math.max(1, Math.round(rect.width));
     var height = Math.max(1, Math.round(rect.height));
     // Cap the ratio: a 3x backing store on a big phone costs more than it shows.
-    var dpr = Math.min(global.devicePixelRatio || 1, this.lite ? 2 : 2.5);
+    var dpr = Math.min(global.devicePixelRatio || 1, 2.5);
 
     if (!force && width === this.cssWidth && height === this.cssHeight && dpr === this.dpr) {
       return false;
