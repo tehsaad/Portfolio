@@ -2,8 +2,10 @@
  * game.js
  * ---------------------------------------------------------------------------
  * The orchestrator: owns the state machine, the loop, collisions, scoring,
- * modes and levels. Everything else (snake, food, input, audio, UI, storage)
+ * modes and levels. Everything else (snake, food, input, UI, storage)
  * is a service it calls.
+ *
+ * AUDIO HAS BEEN COMPLETELY REMOVED.
  *
  * The loop is TIME-BASED. requestAnimationFrame drives rendering, but the
  * snake only advances when enough milliseconds have accumulated.
@@ -205,10 +207,6 @@ const SNAKE_API_URL =
       this.rows
     );
 
-    this.audio = new NS.AudioManager({
-      basePath: this.options.basePath || ''
-    });
-
     this.attract = new NS.Attract(
       this.cols,
       this.rows
@@ -256,7 +254,9 @@ const SNAKE_API_URL =
     };
 
 
-    // First run: respect operating-system reduced-motion preference.
+    /*
+     * First run: respect operating-system reduced-motion preference.
+     */
     if (global.matchMedia) {
       var query = global.matchMedia(
         '(prefers-reduced-motion: reduce)'
@@ -402,10 +402,6 @@ const SNAKE_API_URL =
         'resize',
         this.onWindowResize
       );
-    }
-
-    if (this.audio) {
-      this.audio.stopMusic();
     }
 
     this.root.innerHTML = '';
@@ -668,12 +664,6 @@ const SNAKE_API_URL =
     this.updateHud();
     this.updatePadVisibility();
 
-    this.audio.unlock();
-
-    if (this.settings.music) {
-      this.audio.startMusic();
-    }
-
     this.ui.announce(
       mode.label +
       ' on ' +
@@ -686,7 +676,6 @@ const SNAKE_API_URL =
      * Tell the backend that a real game has started.
      *
      * This is intentionally called here instead of finishGameOver().
-     * Therefore:
      *
      * Page opened        = 0 plays
      * Settings viewed    = 0 plays
@@ -753,8 +742,6 @@ const SNAKE_API_URL =
 
       /*
        * If backend returns a game/run ID, keep it.
-       * This allows the score endpoint to associate
-       * the score with the actual game session.
        */
       this.serverGameId =
         result.game_id ||
@@ -1049,12 +1036,6 @@ const SNAKE_API_URL =
       CONFIG.shake.food
     );
 
-    this.audio.play(
-      item.type === TYPES.NORMAL
-        ? 'eat'
-        : 'bonus'
-    );
-
 
     if (
       item.type === TYPES.SPECIAL &&
@@ -1315,10 +1296,6 @@ const SNAKE_API_URL =
       CONFIG.countdown.levelUp
     );
 
-    this.audio.play(
-      'levelup'
-    );
-
     this.ui.announce(
       'Level ' +
       this.level
@@ -1398,12 +1375,6 @@ const SNAKE_API_URL =
     this.effects.addShake(
       CONFIG.shake.death
     );
-
-    this.audio.play(
-      'gameover'
-    );
-
-    this.audio.stopMusic();
   };
 
 
@@ -1429,10 +1400,6 @@ const SNAKE_API_URL =
 
 
     if (isNewHigh) {
-      this.audio.play(
-        'highscore'
-      );
-
       this.effects.showBanner(
         'NEW HIGH SCORE',
         String(this.score),
@@ -1529,15 +1496,15 @@ const SNAKE_API_URL =
               /*
                * Do NOT send email here.
                *
-               * The Worker should identify
-               * the player from snake_session.
+               * The Worker identifies the
+               * player from snake_session.
                */
               body: JSON.stringify({
                 score: Number(score) || 0,
 
                 /*
-                 * Send game ID only if the backend
-                 * supports it.
+                 * Send game ID only if the
+                 * backend supports it.
                  */
                 game_id:
                   this.serverGameId
@@ -1686,12 +1653,14 @@ const SNAKE_API_URL =
   Game.prototype.handleAction =
     function (action, data) {
 
-      this.audio.unlock();
-
-      if (action !== 'pause') {
-        this.audio.play('click');
-      }
-
+      /*
+       * Audio has been completely removed.
+       *
+       * No AudioManager.unlock()
+       * No AudioManager.play()
+       * No Web Audio API
+       * No audio file requests.
+       */
 
       switch (action) {
 
@@ -2092,8 +2061,7 @@ const SNAKE_API_URL =
               method: 'GET',
 
               /*
-               * Leaderboard is public, so it
-               * does not depend on the cookie.
+               * Leaderboard is public.
                */
               headers: {
                 'Accept':
@@ -2227,12 +2195,6 @@ const SNAKE_API_URL =
     this.ui.showScreen(
       'pause'
     );
-
-    this.audio.play(
-      'pause'
-    );
-
-    this.audio.stopMusic();
   };
 
 
@@ -2263,14 +2225,6 @@ const SNAKE_API_URL =
     );
 
     this.ui.showScreen(null);
-
-    this.audio.play(
-      'resume'
-    );
-
-    if (this.settings.music) {
-      this.audio.startMusic();
-    }
   };
 
 
@@ -2280,8 +2234,6 @@ const SNAKE_API_URL =
 
     this.effects.clear();
     this.foods.clear();
-
-    this.audio.stopMusic();
 
     this.attract.reset();
 
@@ -2325,25 +2277,6 @@ const SNAKE_API_URL =
       );
 
       this.applySettings();
-
-
-      if (key === 'music') {
-
-        this.audio.unlock();
-
-        if (
-          value &&
-          (
-            this.state === STATE.PLAYING ||
-            this.state === STATE.COUNTDOWN
-          )
-        ) {
-          this.audio.startMusic();
-
-        } else if (!value) {
-          this.audio.stopMusic();
-        }
-      }
     };
 
 
@@ -2355,10 +2288,6 @@ const SNAKE_API_URL =
       );
 
       this.renderer.applySettings(
-        this.settings
-      );
-
-      this.audio.applySettings(
         this.settings
       );
 
