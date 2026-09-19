@@ -1,12 +1,5 @@
-const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
-
-const SUPABASE_PUBLISHABLE_KEY =
-    'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+const ADMIN_API_URL =
+    'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev';
 
 
 // =========================================================
@@ -24,12 +17,31 @@ const loginStatus = document.getElementById('loginStatus');
 
 async function checkExistingSession() {
 
-    const {
-        data: { session }
-    } = await supabaseClient.auth.getSession();
+    try {
 
-    if (session) {
-        window.location.href = 'messages.html';
+        const response = await fetch(
+            `${ADMIN_API_URL}/api/admin/session`,
+            {
+                method: 'GET',
+                credentials: 'include'
+            }
+        );
+
+        if (response.ok) {
+
+            const result = await response.json();
+
+            if (result.authenticated) {
+                window.location.href = 'messages.html';
+            }
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Session check error:',
+            error
+        );
     }
 }
 
@@ -40,76 +52,119 @@ checkExistingSession();
 // LOGIN
 // =========================================================
 
-loginForm.addEventListener('submit', async (event) => {
+loginForm.addEventListener(
+    'submit',
+    async (event) => {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const email = document
-        .getElementById('email')
-        .value
-        .trim();
+        const email = document
+            .getElementById('email')
+            .value
+            .trim();
 
-    const password = document
-        .getElementById('password')
-        .value;
-
-
-    // Clear previous status
-    loginStatus.textContent = '';
+        const password = document
+            .getElementById('password')
+            .value;
 
 
-    // Basic validation
-    if (!email || !password) {
-
-        loginStatus.textContent =
-            'Please enter your email and password.';
-
-        return;
-    }
+        loginStatus.textContent = '';
 
 
-    // Disable button while logging in
-    loginButton.disabled = true;
-    loginButton.textContent = 'Signing In...';
+        // -------------------------------------------------
+        // VALIDATION
+        // -------------------------------------------------
 
+        if (!email || !password) {
 
-    try {
+            loginStatus.textContent =
+                'Please enter your email and password.';
 
-        const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-
-        if (error) {
-            throw error;
+            return;
         }
 
 
-        // Successful login
-        loginStatus.textContent =
-            'Login successful. Redirecting...';
+        // -------------------------------------------------
+        // DISABLE BUTTON
+        // -------------------------------------------------
 
-        loginStatus.style.color = '#2F6B45';
+        loginButton.disabled = true;
+        loginButton.textContent = 'Signing In...';
 
 
-        // Give Supabase a moment to store the session
-        setTimeout(() => {
-            window.location.href = 'messages.html';
-        }, 500);
+        try {
 
-    } catch (error) {
+            const response = await fetch(
+                `${ADMIN_API_URL}/api/admin/login`,
+                {
+                    method: 'POST',
 
-        console.error('Login error:', error);
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
 
-        loginStatus.textContent =
-            error.message || 'Unable to sign in.';
+                    credentials: 'include',
 
-        loginStatus.style.color = '#7B2E2E';
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
 
-        loginButton.disabled = false;
-        loginButton.textContent = 'Sign In';
+
+            const result = await response.json();
+
+
+            // -------------------------------------------------
+            // LOGIN FAILED
+            // -------------------------------------------------
+
+            if (!response.ok || !result.success) {
+
+                throw new Error(
+                    result.error ||
+                    'Unable to sign in.'
+                );
+            }
+
+
+            // -------------------------------------------------
+            // LOGIN SUCCESS
+            // -------------------------------------------------
+
+            loginStatus.textContent =
+                'Login successful. Redirecting...';
+
+            loginStatus.style.color = '#2F6B45';
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    'messages.html';
+
+            }, 500);
+
+
+        } catch (error) {
+
+            console.error(
+                'Login error:',
+                error
+            );
+
+            loginStatus.textContent =
+                error.message ||
+                'Unable to sign in.';
+
+            loginStatus.style.color =
+                '#7B2E2E';
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                'Sign In';
+        }
     }
-
-});
+);
