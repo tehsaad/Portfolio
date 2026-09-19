@@ -1,23 +1,22 @@
-
-const SUPABASE_URL = 'https://myfcyubdhxzthhdgustu.supabase.co';
-
-const SUPABASE_PUBLISHABLE_KEY =
-    'sb_publishable_Wjqf-ZZtYTcovUi7k469SQ_ihmUsqzu';
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
+const ADMIN_API_URL =
+    'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev';
 
 
 // =========================================================
 // DOM ELEMENTS
 // =========================================================
 
-const adminEmail = document.getElementById('adminEmail');
-const logoutButton = document.getElementById('logoutButton');
-const messagesContainer = document.getElementById('messagesContainer');
-const messageCount = document.getElementById('messageCount');
+const adminEmail =
+    document.getElementById('adminEmail');
+
+const logoutButton =
+    document.getElementById('logoutButton');
+
+const messagesContainer =
+    document.getElementById('messagesContainer');
+
+const messageCount =
+    document.getElementById('messageCount');
 
 
 // =========================================================
@@ -25,19 +24,46 @@ const messageCount = document.getElementById('messageCount');
 // =========================================================
 
 async function checkSession() {
-    const {
-        data: { session },
-        error
-    } = await supabaseClient.auth.getSession();
 
-    if (error || !session) {
-        window.location.href = 'login.html';
+    try {
+
+        const response = await fetch(
+            `${ADMIN_API_URL}/api/admin/session`,
+            {
+                method: 'GET',
+                credentials: 'include'
+            }
+        );
+
+        const result = await response.json();
+
+
+        if (
+            !response.ok ||
+            !result.authenticated
+        ) {
+            window.location.href = 'login.html';
+            return null;
+        }
+
+
+        adminEmail.textContent =
+            result.email;
+
+        return result;
+
+    } catch (error) {
+
+        console.error(
+            'Session check error:',
+            error
+        );
+
+        window.location.href =
+            'login.html';
+
         return null;
     }
-
-    adminEmail.textContent = session.user.email;
-
-    return session;
 }
 
 
@@ -46,128 +72,168 @@ async function checkSession() {
 // =========================================================
 
 async function loadMessages() {
+
     messagesContainer.innerHTML = `
         <div class="loading-state">
             Loading messages...
         </div>
     `;
 
-    const { data, error } = await supabaseClient
-        .from('messages')
-        .select('*')
-        .order('created_at', { ascending: false });
+
+    try {
+
+        const response = await fetch(
+            `${ADMIN_API_URL}/api/admin/messages`,
+            {
+                method: 'GET',
+                credentials: 'include'
+            }
+        );
 
 
-    // -----------------------------------------------------
-    // ERROR
-    // -----------------------------------------------------
+        const result =
+            await response.json();
 
-    if (error) {
-        console.error('Supabase error:', error);
+
+        if (
+            !response.ok ||
+            !result.success
+        ) {
+
+            throw new Error(
+                result.error ||
+                'Unable to load messages.'
+            );
+        }
+
+
+        const data =
+            result.messages || [];
+
+
+        // -------------------------------------------------
+        // MESSAGE COUNT
+        // -------------------------------------------------
+
+        messageCount.textContent =
+            data.length;
+
+
+        // -------------------------------------------------
+        // NO MESSAGES
+        // -------------------------------------------------
+
+        if (data.length === 0) {
+
+            messagesContainer.innerHTML = `
+                <div class="loading-state">
+                    No messages yet.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        // -------------------------------------------------
+        // TABLE
+        // -------------------------------------------------
+
+        messagesContainer.innerHTML = `
+            <div class="messages-table-wrapper">
+
+                <table class="messages-table">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="messagesTableBody"></tbody>
+
+                </table>
+
+            </div>
+        `;
+
+
+        const tableBody =
+            document.getElementById(
+                'messagesTableBody'
+            );
+
+
+        // -------------------------------------------------
+        // CREATE TABLE ROWS
+        // -------------------------------------------------
+
+        data.forEach(message => {
+
+            const row =
+                document.createElement('tr');
+
+            row.className =
+                'message-row';
+
+
+            row.innerHTML = `
+                <td class="message-name">
+                    ${escapeHTML(message.name)}
+                </td>
+
+                <td class="message-email">
+                    ${escapeHTML(message.email)}
+                </td>
+
+                <td class="message-subject">
+                    ${escapeHTML(
+                        message.subject || '—'
+                    )}
+                </td>
+
+                <td class="message-preview">
+                    ${escapeHTML(message.message)}
+                </td>
+
+                <td class="message-date">
+                    ${formatDate(
+                        message.created_at
+                    )}
+                </td>
+            `;
+
+
+            row.addEventListener(
+                'click',
+                () => {
+                    openMessageModal(message);
+                }
+            );
+
+
+            tableBody.appendChild(row);
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            'Messages API error:',
+            error
+        );
+
 
         messagesContainer.innerHTML = `
             <div class="loading-state">
                 Unable to load messages.
             </div>
         `;
-
-        return;
     }
-
-
-    // -----------------------------------------------------
-    // MESSAGE COUNT
-    // -----------------------------------------------------
-
-    messageCount.textContent = data.length;
-
-
-    // -----------------------------------------------------
-    // NO MESSAGES
-    // -----------------------------------------------------
-
-    if (data.length === 0) {
-        messagesContainer.innerHTML = `
-            <div class="loading-state">
-                No messages yet.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    // -----------------------------------------------------
-    // TABLE
-    // -----------------------------------------------------
-
-    messagesContainer.innerHTML = `
-        <div class="messages-table-wrapper">
-
-            <table class="messages-table">
-
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-
-                <tbody id="messagesTableBody"></tbody>
-
-            </table>
-
-        </div>
-    `;
-
-
-    const tableBody =
-        document.getElementById('messagesTableBody');
-
-
-    // -----------------------------------------------------
-    // CREATE TABLE ROWS
-    // -----------------------------------------------------
-
-    data.forEach(message => {
-        const row = document.createElement('tr');
-
-        row.className = 'message-row';
-
-        row.innerHTML = `
-            <td class="message-name">
-                ${escapeHTML(message.name)}
-            </td>
-
-            <td class="message-email">
-                ${escapeHTML(message.email)}
-            </td>
-
-            <td class="message-subject">
-                ${escapeHTML(message.subject || '—')}
-            </td>
-
-            <td class="message-preview">
-                ${escapeHTML(message.message)}
-            </td>
-
-            <td class="message-date">
-                ${formatDate(message.created_at)}
-            </td>
-        `;
-
-
-        // Make entire row clickable
-        row.addEventListener('click', () => {
-            openMessageModal(message);
-        });
-
-
-        tableBody.appendChild(row);
-    });
 }
 
 
@@ -177,29 +243,30 @@ async function loadMessages() {
 
 function openMessageModal(message) {
 
-    // Remove existing modal if one exists
     const existingModal =
-        document.getElementById('messageModal');
+        document.getElementById(
+            'messageModal'
+        );
 
     if (existingModal) {
         existingModal.remove();
     }
 
 
-    // Create modal
-    const modal = document.createElement('div');
+    const modal =
+        document.createElement('div');
 
-    modal.id = 'messageModal';
-    modal.className = 'message-modal';
+    modal.id =
+        'messageModal';
+
+    modal.className =
+        'message-modal';
 
 
     modal.innerHTML = `
         <div class="message-modal-overlay"></div>
 
         <div class="message-modal-content">
-
-
-            <!-- CLOSE BUTTON -->
 
             <button
                 class="message-modal-close"
@@ -210,22 +277,16 @@ function openMessageModal(message) {
                 &times;
             </button>
 
-
-            <!-- LABEL -->
-
             <div class="modal-label">
                 CONTACT MESSAGE
             </div>
 
-
-            <!-- SUBJECT -->
-
             <h2>
-                ${escapeHTML(message.subject || 'No Subject')}
+                ${escapeHTML(
+                    message.subject ||
+                    'No Subject'
+                )}
             </h2>
-
-
-            <!-- MESSAGE INFORMATION -->
 
             <div class="modal-meta">
 
@@ -233,59 +294,66 @@ function openMessageModal(message) {
                     <span>FROM</span>
 
                     <strong>
-                        ${escapeHTML(message.name)}
+                        ${escapeHTML(
+                            message.name
+                        )}
                     </strong>
                 </div>
-
 
                 <div class="modal-meta-item">
                     <span>EMAIL</span>
 
                     <a
-                        href="mailto:${escapeHTML(message.email)}"
+                        href="mailto:${escapeHTML(
+                            message.email
+                        )}"
                     >
-                        ${escapeHTML(message.email)}
+                        ${escapeHTML(
+                            message.email
+                        )}
                     </a>
                 </div>
-
 
                 <div class="modal-meta-item">
                     <span>DATE</span>
 
                     <strong>
-                        ${formatDate(message.created_at)}
+                        ${formatDate(
+                            message.created_at
+                        )}
                     </strong>
                 </div>
 
             </div>
-
-
-            <!-- FULL MESSAGE -->
 
             <div class="modal-message">
 
                 <span>MESSAGE</span>
 
                 <p>
-                    ${escapeHTML(message.message)}
+                    ${escapeHTML(
+                        message.message
+                    )}
                 </p>
 
             </div>
-
-
-            <!-- ACTION BUTTONS -->
 
             <div class="modal-actions">
 
                 <a
                     class="modal-reply-button"
-                    href="mailto:${escapeHTML(message.email)}?subject=${encodeURIComponent(
-                        'Re: ' + (message.subject || 'Your message')
+                    href="mailto:${escapeHTML(
+                        message.email
+                    )}?subject=${encodeURIComponent(
+                        'Re: ' +
+                        (
+                            message.subject ||
+                            'Your message'
+                        )
                     )}"
                 >
                     Reply by Email
                 </a>
-
 
                 <button
                     class="modal-close-button"
@@ -304,43 +372,58 @@ function openMessageModal(message) {
     document.body.appendChild(modal);
 
 
-    // -----------------------------------------------------
+    // -------------------------------------------------
     // CLOSE MODAL
-    // -----------------------------------------------------
+    // -------------------------------------------------
 
     const closeModal = () => {
         modal.remove();
+
+        document.removeEventListener(
+            'keydown',
+            handleEscape
+        );
     };
 
 
     document
-        .getElementById('closeMessageModal')
-        .addEventListener('click', closeModal);
+        .getElementById(
+            'closeMessageModal'
+        )
+        .addEventListener(
+            'click',
+            closeModal
+        );
 
 
     document
-        .getElementById('closeMessageButton')
-        .addEventListener('click', closeModal);
+        .getElementById(
+            'closeMessageButton'
+        )
+        .addEventListener(
+            'click',
+            closeModal
+        );
 
 
     document
-        .querySelector('.message-modal-overlay')
-        .addEventListener('click', closeModal);
+        .querySelector(
+            '.message-modal-overlay'
+        )
+        .addEventListener(
+            'click',
+            closeModal
+        );
 
 
-    // -----------------------------------------------------
+    // -------------------------------------------------
     // ESCAPE KEY
-    // -----------------------------------------------------
+    // -------------------------------------------------
 
     const handleEscape = (event) => {
 
         if (event.key === 'Escape') {
             closeModal();
-
-            document.removeEventListener(
-                'keydown',
-                handleEscape
-            );
         }
     };
 
@@ -365,6 +448,7 @@ function escapeHTML(value) {
         return '';
     }
 
+
     return String(value)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -384,7 +468,10 @@ function formatDate(dateString) {
         return '';
     }
 
-    const date = new Date(dateString);
+
+    const date =
+        new Date(dateString);
+
 
     return date.toLocaleString([], {
         dateStyle: 'medium',
@@ -407,23 +494,22 @@ logoutButton.addEventListener(
             'Signing Out...';
 
 
-        const { error } =
-            await supabaseClient.auth.signOut();
+        try {
 
+            await fetch(
+                `${ADMIN_API_URL}/api/admin/logout`,
+                {
+                    method: 'POST',
+                    credentials: 'include'
+                }
+            );
 
-        if (error) {
+        } catch (error) {
 
             console.error(
                 'Logout error:',
                 error
             );
-
-            logoutButton.disabled = false;
-
-            logoutButton.textContent =
-                'Sign Out';
-
-            return;
         }
 
 
@@ -442,13 +528,14 @@ async function init() {
     const session =
         await checkSession();
 
+
     if (!session) {
         return;
     }
+
 
     await loadMessages();
 }
 
 
 init();
-
