@@ -491,6 +491,75 @@
   color: var(--snake-parchment-faint);
 }
 
+/* ----------------------------- player form ------------------------------ */
+
+#snake-game .snake-player-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  text-align: left;
+}
+
+#snake-game .snake-player-form__label {
+  margin-top: 0.25rem;
+  font-family: var(--snake-font-ui);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--snake-parchment-dim);
+}
+
+#snake-game .snake-player-form__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  font-family: var(--snake-font-ui);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: var(--snake-parchment);
+  background: var(--snake-panel-soft);
+  border: 1px solid var(--snake-line);
+  border-radius: 9px;
+  outline: none;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+#snake-game .snake-player-form__input::placeholder {
+  color: var(--snake-parchment-faint);
+}
+
+#snake-game .snake-player-form__input:hover {
+  border-color: rgba(200, 155, 60, 0.35);
+}
+
+#snake-game .snake-player-form__input:focus {
+  border-color: var(--snake-brass);
+  background: rgba(233, 226, 208, 0.07);
+  box-shadow: 0 0 0 2px rgba(200, 155, 60, 0.14);
+}
+
+#snake-game .snake-player-form__input:invalid:not(:placeholder-shown) {
+  border-color: rgba(192, 82, 82, 0.65);
+}
+
+#snake-game .snake-player-form__error {
+  min-height: 1.1rem;
+  margin: 0.25rem 0 0;
+  font-family: var(--snake-font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--snake-oxblood);
+}
+
+@media (max-width: 400px) {
+  #snake-game .snake-player-form__input {
+    padding: 0.65rem 0.7rem;
+    font-size: 0.86rem;
+  }
+}
 
 /* -------------------------------- options -------------------------------- */
 

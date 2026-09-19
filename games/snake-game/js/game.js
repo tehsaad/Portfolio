@@ -15,6 +15,46 @@
  * So the game runs identically at 30, 60, 120 or 144 Hz, and `alpha` is what
  * makes movement look smooth instead of stuttering one cell at a time.
  */
+
+const SNAKE_API_URL =
+    'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev';
+
+    async function registerSnakePlayer(name, email) {
+    try {
+        const response = await fetch(
+            `${SNAKE_API_URL}/api/snake/player`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.error || 'Unable to register player.'
+            );
+        }
+
+        return result.player;
+
+    } catch (error) {
+        console.error(
+            'Snake player API error:',
+            error
+        );
+
+        throw error;
+    }
+}
+
 (function (global) {
   'use strict';
 
@@ -29,6 +69,8 @@
     this.options = options || {};
     this.cols = CONFIG.grid.cols;
     this.rows = CONFIG.grid.rows;
+    this.player = null;
+
 
     this.storage = new NS.StorageManager();
     this.settings = this.storage.loadSettings();
@@ -71,6 +113,43 @@
     this.hudTimer = 0;
     this.active = { slow: 0, double: 0 };
   };
+
+  Game.prototype.restorePlayer = function () {
+  try {
+    const saved = localStorage.getItem('snakePlayer');
+
+    if (!saved) {
+      return false;
+    }
+
+    const player = JSON.parse(saved);
+
+    if (
+      !player ||
+      !player.id ||
+      !player.name ||
+      !player.email
+    ) {
+      localStorage.removeItem('snakePlayer');
+      return false;
+    }
+
+    this.player = {
+      id: player.id,
+      name: player.name,
+      email: player.email,
+      best_score: Number(player.best_score) || 0,
+      plays_count: Number(player.plays_count) || 0
+    };
+
+    return true;
+
+  } catch (error) {
+    console.error('Unable to restore Snake player:', error);
+    localStorage.removeItem('snakePlayer');
+    return false;
+  }
+};
 
   /* ------------------------------- setup --------------------------------- */
 
@@ -548,6 +627,9 @@
       this.audio.play('highscore');
       this.effects.showBanner('NEW HIGH SCORE', String(this.score), 2.2);
     }
+    if (this.player && this.player.email) {
+      this.submitPlayerScore(this.score);
+    }
 
     this.ui.showGameOver({
       score: this.score,
@@ -561,6 +643,45 @@
     this.refreshMenu();
     this.ui.announce('Game over. Score ' + this.score + '.');
   };
+  Game.prototype.submitPlayerScore = async function (score) {
+  try {
+    var response = await fetch(
+
+            SNAKE_API_URL + '/api/snake/score',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: this.player.email,
+          score: score
+        })
+      }
+    );
+
+    var result = await response.json();
+
+    if (!response.ok || !result.success) {
+      console.error(
+        'Snake score submission failed:',
+        result.error || 'Unknown error'
+      );
+      return;
+    }
+
+    this.player.best_score = result.player.best_score;
+    this.player.plays_count = result.player.plays_count;
+
+    console.log('Snake score saved:', result);
+
+  } catch (error) {
+    console.error(
+      'Snake score API error:',
+      error
+    );
+  }
+};
 
   /* ------------------------------- controls ------------------------------ */
 
@@ -582,23 +703,38 @@
     }
   };
 
+
+  Game.prototype.openPlayerScreen = function () {
+    this.previousScreen = this.ui.currentScreen;
+    this.ui.clearPlayerError();
+    this.ui.showScreen('player');
+  };
+  
   Game.prototype.handleAction = function (action, data) {
     this.audio.unlock();
     if (action !== 'pause') this.audio.play('click');
 
     switch (action) {
       case 'play':
-        this.startRun();
+        this.openPlayerScreen();
         break;
 
       case 'play-mode':
         this.setMode(data.mode);
-        this.startRun();
-        break;
+        this.openPlayerScreen();
+      break;
 
       case 'select-mode':
         this.setMode(data.mode);
         this.ui.showScreen('menu');
+        break;
+
+      case 'player-continue':
+        this.continueWithPlayer();
+        break;
+
+      case 'player-load':
+        this.loadPlayer();
         break;
 
       case 'select-difficulty':
@@ -663,6 +799,126 @@
         break;
     }
   };
+
+  Game.prototype.continueWithPlayer = async function () {
+  var playerData = this.ui.getPlayerData();
+
+  if (!playerData.name) {
+    this.ui.setPlayerError('Please enter your name.');
+    return;
+  }
+
+  if (!playerData.email) {
+    this.ui.setPlayerError('Please enter your email.');
+    return;
+  }
+
+  this.ui.clearPlayerError();
+
+  try {
+    var response = await fetch(
+      'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev/api/snake/player',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: playerData.name,
+          email: playerData.email
+        })
+      }
+    );
+
+    var result = await response.json();
+
+    if (!response.ok || !result.success) {
+      this.ui.setPlayerError(
+        result.error || 'Unable to save player data.'
+      );
+      return;
+    }
+
+    this.player = {
+      id: result.player.id,
+      name: result.player.name,
+      email: playerData.email,
+      best_score: result.player.best_score,
+      plays_count: result.player.plays_count
+    };
+
+    localStorage.setItem(
+      'snakePlayer',
+      JSON.stringify(this.player)
+    );
+
+    this.startRun();
+
+  } catch (error) {
+    console.error('Player API error:', error);
+    this.ui.setPlayerError(
+      'Unable to connect to the server. Please try again.'
+    );
+  }
+};
+
+
+Game.prototype.loadPlayer = async function () {
+  var playerData = this.ui.getPlayerData();
+
+  if (!playerData.email) {
+    this.ui.setPlayerError('Enter your email to load your data.');
+    return;
+  }
+
+  this.ui.clearPlayerError();
+
+  try {
+    var response = await fetch(
+      'https://tehsaad-portfolio-api.srizwan-bscs26seecs.workers.dev/api/snake/player/lookup',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: playerData.email
+        })
+      }
+    );
+
+    var result = await response.json();
+
+    if (!response.ok || !result.success) {
+      this.ui.setPlayerError(
+        result.error || 'Player not found.'
+      );
+      return;
+    }
+
+    this.player = {
+      id: result.player.id,
+      name: result.player.name,
+      email: playerData.email,
+      best_score: result.player.best_score,
+      plays_count: result.player.plays_count
+    };
+
+    localStorage.setItem(
+      'snakePlayer',
+      JSON.stringify(this.player)
+    );
+
+    this.ui.setPlayerData(result.player);
+    this.startRun();
+
+  } catch (error) {
+    console.error('Player lookup API error:', error);
+    this.ui.setPlayerError(
+      'Unable to connect to the server. Please try again.'
+    );
+  }
+};
 
   Game.prototype.setMode = function (id) {
     if (!NS.MODES[id]) return;
