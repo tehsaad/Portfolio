@@ -935,85 +935,16 @@
 }
 
 
-/* ------------------------------- touch pad ------------------------------- */
+/* ---------------------- touch devices: swipe only ------------------------- */
+/* Phones and tablets steer by swiping the board, so there are no buttons
+   under it. (Keyboard players keep the Pause / Settings bar.) */
 
-#snake-game .snake-pad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 0.4rem;
-  width: min(208px, 56vw);
-  aspect-ratio: 1;
-  margin: 0.2rem auto 0;
-  touch-action: manipulation;
-}
+@media (pointer: coarse) {
 
-#snake-game .snake-pad[hidden] {
-  display: none;
-}
+  #snake-game .snake-game__bar {
+    display: none !important;
+  }
 
-#snake-game .snake-pad__button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--snake-panel-soft);
-  border: 1px solid var(--snake-line);
-  border-radius: 12px;
-  color: var(--snake-parchment-dim);
-  cursor: pointer;
-  transition:
-    background 120ms ease,
-    color 120ms ease;
-}
-
-#snake-game .snake-pad__button:active {
-  background: rgba(99, 199, 155, 0.18);
-  color: var(--snake-jade);
-}
-
-#snake-game .snake-pad__button:focus-visible {
-  outline: 2px solid var(--snake-brass);
-  outline-offset: 2px;
-}
-
-#snake-game .snake-pad__button::before {
-  content: "";
-  width: 30%;
-  height: 26%;
-  background: currentColor;
-  clip-path: polygon(
-    50% 0%,
-    100% 100%,
-    0% 100%
-  );
-}
-
-#snake-game .snake-pad__key--up {
-  grid-area: 1 / 2;
-}
-
-#snake-game .snake-pad__key--left {
-  grid-area: 2 / 1;
-}
-
-#snake-game .snake-pad__key--right {
-  grid-area: 2 / 3;
-}
-
-#snake-game .snake-pad__key--down {
-  grid-area: 3 / 2;
-}
-
-#snake-game .snake-pad__key--down::before {
-  transform: rotate(180deg);
-}
-
-#snake-game .snake-pad__key--left::before {
-  transform: rotate(-90deg);
-}
-
-#snake-game .snake-pad__key--right::before {
-  transform: rotate(90deg);
 }
 
 
@@ -1250,6 +1181,68 @@ body.snake-demo-page {
   50% {
     opacity: 1;
     transform: scale(1);
+  }
+
+}
+
+
+/* ===========================================================================
+   Phones & tablets (coarse pointer): swipe-only play, no scrolling
+   ---------------------------------------------------------------------------
+   - Bigger board: the space freed by the removed buttons goes to the canvas.
+   - Menus / pause / game-over open as a full-screen modal, so they always fit
+     without an inner scroll bar.
+   - No visible scroll bars inside panels.
+   - While a game is running the host page cannot scroll or pull-to-refresh, so
+     a swipe on the board can never be mistaken for a page scroll.
+   =========================================================================== */
+
+@media (pointer: coarse) {
+
+  #snake-game {
+    --snake-stage-size: min(96vw, 70vh);
+  }
+
+  /* Modal overlay covering the whole screen. */
+  #snake-game .snake-game__overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    padding:
+      max(0.75rem, env(safe-area-inset-top, 0px))
+      0.75rem
+      max(0.75rem, env(safe-area-inset-bottom, 0px));
+    background: rgba(8, 13, 20, 0.78);
+  }
+
+  /* Scrolling still works by touch if a panel is taller than the screen
+     (Settings, How to play) — the bar itself is simply not drawn. */
+  #snake-game .snake-screen__panel,
+  #snake-game .snake-leaderboard__table-wrap {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #snake-game .snake-screen__panel::-webkit-scrollbar,
+  #snake-game .snake-leaderboard__table-wrap::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* No text selection / long-press menu while swiping the board. */
+  #snake-game .snake-game__stage {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Embedded in another page: freeze that page while a game is running. */
+  html:has(#snake-game[data-state="PLAYING"]),
+  html:has(#snake-game[data-state="COUNTDOWN"]),
+  html:has(#snake-game[data-state="DYING"]) {
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
 }

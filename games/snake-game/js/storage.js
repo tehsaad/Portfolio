@@ -114,6 +114,17 @@
       if (typeof out[key] !== typeof defaults[key]) out[key] = defaults[key];
     }
     out.volume = Math.min(1, Math.max(0, Number(out.volume) || 0));
+
+    // One-time migration: background music became ON by default. Visitors who
+    // already saved settings (with music off) get it switched on once; after
+    // that, their own choice in Settings is respected.
+    var migrationKey = PREFIX + 'musicDefaultOn';
+    if (!this.readRaw(migrationKey)) {
+      out.music = true;
+      this.writeRaw(migrationKey, '1');
+      this.saveSettings(out);
+    }
+
     return out;
   };
 

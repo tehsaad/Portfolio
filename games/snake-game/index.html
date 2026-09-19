@@ -6,7 +6,32 @@
   <meta name="description" content="Snake — a canvas game built with vanilla JavaScript.">
   <meta name="color-scheme" content="dark">
   <title>Snake — canvas game</title>
-  <link rel="stylesheet" href="css/style.css">
+ <link rel="icon" type="image/jpeg" href="../../assets/img/favicon.jpg">
+  <link rel="stylesheet" href="css/style.css?v=20260919d">
+
+  <!-- Standalone page only: on phones/tablets this page must never scroll,
+       bounce or pull-to-refresh, so swiping the board can't be confused with
+       scrolling. (Not needed when the game is embedded elsewhere.) -->
+  <style>
+    @media (pointer: coarse) {
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      body.snake-demo-page {
+        position: fixed;
+        inset: 0;
+        box-sizing: border-box;
+        min-height: 0;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+      }
+    }
+  </style>
 </head>
 
 <!-- The `snake-demo-page` class only styles THIS standalone page.
@@ -20,18 +45,18 @@
   </main>
 
   <!-- Load order matters: config first, main last. -->
-  <script src="js/config.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/audio.js"></script>
-  <script src="js/input.js"></script>
-  <script src="js/snake.js"></script>
-  <script src="js/food.js"></script>
-  <script src="js/levels.js"></script>
-  <script src="js/effects.js"></script>
-  <script src="js/renderer.js"></script>
-  <script src="js/attract.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/game.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/config.js?v=20260919d"></script>
+  <script src="js/storage.js?v=20260919d"></script>
+  <script src="js/audio.js?v=20260919d"></script>
+  <script src="js/input.js?v=20260919d"></script>
+  <script src="js/snake.js?v=20260919d"></script>
+  <script src="js/food.js?v=20260919d"></script>
+  <script src="js/levels.js?v=20260919d"></script>
+  <script src="js/effects.js?v=20260919d"></script>
+  <script src="js/renderer.js?v=20260919d"></script>
+  <script src="js/attract.js?v=20260919d"></script>
+  <script src="js/ui.js?v=20260919d"></script>
+  <script src="js/game.js?v=20260919d"></script>
+  <script src="js/main.js?v=20260919d"></script>
 </body>
 </html>

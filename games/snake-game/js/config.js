@@ -104,7 +104,8 @@
 
     input: {
       maxQueuedTurns: 2,        // queued turns, so fast double-taps still work
-      swipeThreshold: 22        // px before a touch counts as a swipe
+      swipeThreshold: 8,        // px of finger travel before a swipe steers the snake
+      earlyStepFraction: 0.4    // turn takes effect at once once this much of a step has passed (0 = off)
     },
 
     death: { animationSeconds: 0.9 },
@@ -195,12 +196,11 @@
   /** Default settings — overwritten by anything found in localStorage. */
   NS.DEFAULT_SETTINGS = {
     sfx: true,
-    music: false,
+    music: true,
     volume: 0.6,
     grid: true,
     particles: true,
     shake: true,
-    touchControls: 'auto',   // 'auto' | 'on' | 'off'
     reducedMotion: false
   };
 
