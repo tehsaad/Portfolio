@@ -709,7 +709,7 @@ const SNAKE_API_URL =
     this.ui.clearPlayerError();
     this.ui.showScreen('player');
   };
-  
+
   Game.prototype.handleAction = function (action, data) {
     this.audio.unlock();
     if (action !== 'pause') this.audio.play('click');
@@ -752,7 +752,12 @@ const SNAKE_API_URL =
         this.ui.showScreen('difficulty');
         break;
 
-      case 'open-settings':
+      case 'open-leaderboard':
+        this.previousScreen = this.ui.currentScreen;
+        this.loadLeaderboard();
+        break;
+
+case 'open-settings':
         this.previousScreen = this.ui.currentScreen;
         if (this.state === STATE.PLAYING || this.state === STATE.COUNTDOWN) {
           this.pause();
@@ -927,6 +932,49 @@ Game.prototype.loadPlayer = async function () {
     this.ui.markSelected('mode', id);
     this.refreshMenu();
   };
+
+  Game.prototype.loadLeaderboard = async function () {
+  this.ui.clearLeaderboard();
+  this.ui.setLeaderboardLoading(true);
+  this.ui.showScreen('leaderboard');
+
+  try {
+    var response = await fetch(
+      SNAKE_API_URL + '/api/snake/leaderboard',
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }
+    );
+
+    var result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.error || 'Unable to load leaderboard.'
+      );
+    }
+
+    this.ui.setLeaderboard(
+      result.leaderboard || []
+    );
+
+  } catch (error) {
+    console.error(
+      'Snake leaderboard API error:',
+      error
+    );
+
+    this.ui.setLeaderboardLoading(false);
+
+      this.ui.setLeaderboardError(
+        'Unable to load leaderboard. Please try again.'
+     );
+   }
+ };
+
 
   Game.prototype.setDifficulty = function (id) {
     if (!NS.DIFFICULTIES[id]) return;
