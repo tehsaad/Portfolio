@@ -41,6 +41,9 @@
 
     this.basePath = options.basePath || '';
 
+    // The game ships without audio files, so do not request them by default.
+    this.useSamples = !!options.useSamples;
+
     // Default volume increased from 0.6 to 0.8.
     this.settings = {
       sfx: true,
@@ -144,7 +147,7 @@
   /* --------------------------- optional samples -------------------------- */
 
   AudioManager.prototype.loadSamples = function () {
-    if (!this.ctx || !global.fetch) return;
+    if (!this.useSamples || !this.ctx || !global.fetch) return;
 
     var self = this;
 

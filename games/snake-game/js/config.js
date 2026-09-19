@@ -195,7 +195,7 @@
   /** Default settings — overwritten by anything found in localStorage. */
   NS.DEFAULT_SETTINGS = {
     sfx: true,
-    music: false,
+    music: true,
     volume: 0.6,
     grid: true,
     particles: true,
